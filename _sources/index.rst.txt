@@ -1,5 +1,5 @@
 ========================================================================
-Apriori Algorithm: Finding Shopping Patterns 
+Apriori Algorithm : Unsupervised ML ALGO
 ========================================================================
 
 .. note::
@@ -496,7 +496,7 @@ Step 2: Generate Pairs (2-Itemsets)
    - ❌ Remove: {Smartphone, Powerbank} (20%)
 
    - ❌ Remove: {Charger, Earphones} (20%)
-   
+
    - ❌ Remove: {Earphones, Powerbank} (0%)
 
 **Result: Frequent 2-Itemsets (L₂)**
