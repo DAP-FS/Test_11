@@ -1,9 +1,9 @@
 ========================================================================
-Apriori Algorithm : Unsupervised ML ALGO
+Apriori Algorithm : Friendly Session
 ========================================================================
 
 .. note::
-   **Welcome, dear students!** 🎓 
+   **Overview ** 🎓 
    
    Think of this lesson as a friendly guide. We'll walk together, step by step, through 
    the Apriori Algorithm. No rushing, no confusion—just clear explanations with 
@@ -686,17 +686,246 @@ Visual Summary: The Complete Process
 
 ------------------------------------------------------------------------
 
-🎯 Part 5: Practice Exercises
-========================================================================
+Calculate Lift Values:
+^^^^^^^^^^^^^^^^^^^^^^^
 
-.. attention::
-   **Learning by Doing!**
+Now let's calculate Lift for each accepted rule to verify their strength.
+
+**For Rule 1:** {Smartphone} → {Charger}
+
+.. math::
+
+   \text{Lift} = \frac{\text{Support}(\text{Smartphone, Charger})}{\text{Support}(\text{Smartphone}) \times \text{Support}(\text{Charger})}
+
+.. math::
+
+   \text{Lift} = \frac{0.6}{0.8 \times 0.8} = \frac{0.6}{0.64} = 0.9375
+
+**Interpretation:** Lift = 0.9375 < 1 suggests slight negative correlation 
+
+**For Rule 4:** {Earphones} → {Smartphone}
+
+.. math::
+
+   \text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25
+
+**Interpretation:** Lift = 1.25 > 1 indicates **positive correlation** — buying earphones increases likelihood of buying smartphones! [web:1][web:8]
+
+**For Rule 6:** {Powerbank} → {Charger}
+
+.. math::
+
+   \text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25
+
+**Interpretation:** Lift = 1.25 > 1 indicates **strong positive association** 
+
+**Updated Final Rules Table:**
+
+.. list-table:: **Accepted Association Rules (Complete Analysis)**
+   :header-rows: 1
+   :widths: 30 12 12 12 34
+
+   * - **Rule**
+     - **Support**
+     - **Confidence**
+     - **Lift**
+     - **Business Action**
+   * - {Smartphone} → {Charger}
+     - 60%
+     - 75%
+     - 0.94
+     - Moderate recommendation (Lift < 1)
+   * - {Charger} → {Smartphone}
+     - 60%
+     - 75%
+     - 0.94
+     - Moderate recommendation (Lift < 1)
+   * - {Earphones} → {Smartphone}
+     - 40%
+     - 100%
+     - 1.25
+     - **Strong bundle opportunity!** (Lift > 1)
+   * - {Powerbank} → {Charger}
+     - 40%
+     - 100%
+     - 1.25
+     - **Strong bundle opportunity!** (Lift > 1)
+
+.. important::
+   **Key Insight:** Although {Smartphone} → {Charger} has high confidence (75%), 
+   the Lift < 1 suggests chargers are so popular (80% support) that the association 
+   isn't particularly strong. Focus on rules with **Lift > 1** for best results! 
+
+   Exercise 1: Calculate Support (Beginner)
+-----------------------------------------
+
+**Given Data:**
+
+.. list-table::
+   :header-rows: 1
+
+   * - **Transaction**
+     - **Items**
+   * - T1
+     - {Laptop, Mouse, Keyboard}
+   * - T2
+     - {Laptop, Mouse}
+   * - T3
+     - {Mouse, Keyboard, USB}
+   * - T4
+     - {Laptop, Keyboard}
+   * - T5
+     - {Mouse, USB}
+
+**Question:** Calculate Support for:
+1. {Mouse}
+2. {Laptop, Mouse}
+3. {Keyboard}
+
+.. admonition:: Solution (Click to reveal)
+   :class: dropdown
+
+   **1. Support({Mouse}):**
    
-   Try each exercise yourself first. Click "Show Solution" only after attempting.
+   - Appears in: T1, T2, T3, T5 = 4 transactions
+   - Support = 4/5 = **80%**
    
-   These exercises go from **easy** to **challenging** to build your confidence gradually.
+   **2. Support({Laptop, Mouse}):**
+   
+   - Appears in: T1, T2 = 2 transactions
+   - Support = 2/5 = **40%**
+   
+   **3. Support({Keyboard}):**
+   
+   - Appears in: T1, T3, T4 = 3 transactions
+   - Support = 3/5 = **60%**
 
 ------------------------------------------------------------------------
 
-Exercise 1: Counting Support (Beginner)
-----------------------------------------
+Exercise 2: Calculate Confidence (Intermediate)
+------------------------------------------------
+
+Using the same dataset from Exercise 1:
+
+**Question:** Calculate Confidence for the rule: {Laptop} → {Mouse}
+
+.. admonition:: Solution (Click to reveal)
+   :class: dropdown
+
+   **Step 1:** Find Support({Laptop, Mouse})
+   
+   - T1, T2 = 2 transactions
+   - Support = 2/5
+   
+   **Step 2:** Find Support({Laptop})
+   
+   - T1, T2, T4 = 3 transactions
+   - Support = 3/5
+   
+   **Step 3:** Calculate Confidence
+   
+   .. math::
+   
+      \text{Confidence} = \frac{2/5}{3/5} = \frac{2}{3} = 66.67\%
+   
+   **Interpretation:** 66.67% of laptop buyers also buy a mouse 
+
+------------------------------------------------------------------------
+
+Exercise 3: Calculate Lift (Advanced)
+--------------------------------------
+
+**Question:** For the rule {Laptop} → {Mouse}, calculate Lift and interpret the result.
+
+.. admonition:: Solution (Click to reveal)
+   :class: dropdown
+
+   **Given from previous exercises:**
+   
+   - Support({Laptop, Mouse}) = 2/5 = 0.4
+   - Support({Laptop}) = 3/5 = 0.6
+   - Support({Mouse}) = 4/5 = 0.8
+   
+   **Apply Lift formula:**
+   
+   .. math::
+   
+      \text{Lift} = \frac{0.4}{0.6 \times 0.8} = \frac{0.4}{0.48} = 0.833
+   
+   **Interpretation:**
+   
+   - Lift = 0.833 < 1 → **Negative correlation**
+   - Laptops and mice are **less likely** to be bought together than by random chance
+   - Despite 66.67% confidence, this is NOT a strong association 
+
+------------------------------------------------------------------------
+
+Exercise 4: Apply Apriori Algorithm (Challenge)
+------------------------------------------------
+
+**Dataset:**
+
+.. list-table::
+   :header-rows: 1
+
+   * - **Transaction**
+     - **Items**
+   * - T1
+     - {A, B, C}
+   * - T2
+     - {A, B}
+   * - T3
+     - {A, C}
+   * - T4
+     - {B, C}
+   * - T5
+     - {A, B, C}
+   * - T6
+     - {A, C}
+
+**Task:** Apply Apriori with **Minimum Support = 50%**
+
+1. Find all frequent 1-itemsets (L₁)
+2. Find all frequent 2-itemsets (L₂)
+3. Generate association rules with **Minimum Confidence = 70%**
+4. Calculate Lift for each rule
+
+.. admonition:: Complete Solution
+   :class: dropdown
+
+   **Step 1: L₁ (Frequent 1-itemsets)**
+   
+   - {A}: T1, T2, T3, T5, T6 = 5/6 = 83.33% ✓
+   - {B}: T1, T2, T4, T5 = 4/6 = 66.67% ✓
+   - {C}: T1, T3, T4, T5, T6 = 5/6 = 83.33% ✓
+   
+   **Step 2: L₂ (Frequent 2-itemsets)**
+   
+   - {A, B}: T1, T2, T5 = 3/6 = 50% ✓
+   - {A, C}: T1, T3, T5, T6 = 4/6 = 66.67% ✓
+   - {B, C}: T1, T4, T5 = 3/6 = 50% ✓
+   
+   **Step 3: Generate Rules (Confidence ≥ 70%)**
+   
+   From {A, B}:
+   - {A} → {B}: Confidence = 3/5 = 60% ✗
+   - {B} → {A}: Confidence = 3/4 = 75% ✓
+   
+   From {A, C}:
+   - {A} → {C}: Confidence = 4/5 = 80% ✓
+   - {C} → {A}: Confidence = 4/5 = 80% ✓
+   
+   From {B, C}:
+   - {B} → {C}: Confidence = 3/4 = 75% ✓
+   - {C} → {B}: Confidence = 3/5 = 60% ✗
+   
+   **Step 4: Calculate Lift**
+   
+   - {B} → {A}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)
+   - {A} → {C}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)
+   - {C} → {A}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)
+   - {B} → {C}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)
+   
+   **Conclusion:** All rules have Lift < 1, indicating no strong positive associations 
+
+

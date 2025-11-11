@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apriori Algorithm : Unsupervised ML ALGO &mdash; Apriori Algorithm - Step by Step</title>
+  <title>Apriori Algorithm : Friendly Session &mdash; Apriori Algorithm - Step by Step</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
@@ -52,7 +52,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Apriori Algorithm : Unsupervised ML ALGO</a><ul>
+<li><a class="reference internal" href="#">Apriori Algorithm : Friendly Session</a><ul>
 <li><a class="reference internal" href="#part-1-understanding-the-basics">📚 Part 1: Understanding the Basics</a><ul>
 <li><a class="reference internal" href="#why-should-you-care-about-this">Why Should You Care About This?</a></li>
 <li><a class="reference internal" href="#key-terms-you-must-know">Key Terms You Must Know</a></li>
@@ -84,11 +84,13 @@
 <li><a class="reference internal" href="#from-charger-powerbank">From {Charger, Powerbank}:</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#visual-summary-the-complete-process">Visual Summary: The Complete Process</a></li>
+<li><a class="reference internal" href="#visual-summary-the-complete-process">Visual Summary: The Complete Process</a><ul>
+<li><a class="reference internal" href="#calculate-lift-values">Calculate Lift Values:</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#part-5-practice-exercises">🎯 Part 5: Practice Exercises</a><ul>
-<li><a class="reference internal" href="#exercise-1-counting-support-beginner">Exercise 1: Counting Support (Beginner)</a></li>
+<li><a class="reference internal" href="#exercise-2-calculate-confidence-intermediate">Exercise 2: Calculate Confidence (Intermediate)</a></li>
+<li><a class="reference internal" href="#exercise-3-calculate-lift-advanced">Exercise 3: Calculate Lift (Advanced)</a></li>
+<li><a class="reference internal" href="#exercise-4-apply-apriori-algorithm-challenge">Exercise 4: Apply Apriori Algorithm (Challenge)</a></li>
 </ul>
 </li>
 </ul>
@@ -109,7 +111,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Apriori Algorithm : Unsupervised ML ALGO</li>
+      <li class="breadcrumb-item active">Apriori Algorithm : Friendly Session</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -119,11 +121,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="apriori-algorithm-unsupervised-ml-algo">
-<h1>Apriori Algorithm : Unsupervised ML ALGO<a class="headerlink" href="#apriori-algorithm-unsupervised-ml-algo" title="Link to this heading"></a></h1>
+  <section id="apriori-algorithm-friendly-session">
+<h1>Apriori Algorithm : Friendly Session<a class="headerlink" href="#apriori-algorithm-friendly-session" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Welcome, dear students!</strong> 🎓</p>
+<p><a href="#id1"><span class="problematic" id="id2">**</span></a>Overview ** 🎓</p>
 <p>Think of this lesson as a friendly guide. We’ll walk together, step by step, through
 the Apriori Algorithm. No rushing, no confusion—just clear explanations with
 real shopping examples.</p>
@@ -211,8 +213,8 @@ to make smarter decisions!</p>
 <section id="our-example-online-shopping-transactions">
 <h3>Our Example: Online Shopping Transactions<a class="headerlink" href="#our-example-online-shopping-transactions" title="Link to this heading"></a></h3>
 <p>Let’s use a <strong>simple dataset</strong> of 5 shopping transactions from an online electronics store:</p>
-<table class="docutils align-default" id="id1">
-<caption><span class="caption-text"><strong>Transaction Database</strong></span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text"><strong>Transaction Database</strong></span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 25.0%" />
 <col style="width: 75.0%" />
@@ -377,8 +379,8 @@ to make smarter decisions!</p>
 <div class="math notranslate nohighlight">
 \[\text{Lift} = \frac{\text{How often B comes with A}}{\text{How often B appears normally}}\]</div>
 <p><strong>Understanding Lift Values:</strong></p>
-<table class="docutils align-default" id="id2">
-<caption><span class="caption-text"><strong>Lift Interpretation Guide</strong></span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text"><strong>Lift Interpretation Guide</strong></span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 25.0%" />
 <col style="width: 75.0%" />
@@ -444,8 +446,8 @@ to make smarter decisions!</p>
 <h3>Step 1: Scan Database and Count Items<a class="headerlink" href="#step-1-scan-database-and-count-items" title="Link to this heading"></a></h3>
 <p><strong>What we do:</strong> Count each item’s appearances</p>
 <p><strong>Result: Candidate 1-Itemsets (C₁)</strong></p>
-<table class="docutils align-default" id="id3">
-<caption><span class="caption-text"><strong>C₁: All Single Items</strong></span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text"><strong>C₁: All Single Items</strong></span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 30.0%" />
 <col style="width: 25.0%" />
@@ -497,8 +499,8 @@ to make smarter decisions!</p>
 </ul>
 </div>
 <p><strong>Result: Frequent 1-Itemsets (L₁)</strong></p>
-<table class="docutils align-default" id="id4">
-<caption><span class="caption-text"><strong>L₁: Frequent Single Items</strong></span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text"><strong>L₁: Frequent Single Items</strong></span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 40.0%" />
 <col style="width: 30.0%" />
@@ -548,8 +550,8 @@ to make smarter decisions!</p>
 <li><p>{Earphones, Powerbank}</p></li>
 </ul>
 <p><strong>Count each pair:</strong></p>
-<table class="docutils align-default" id="id5">
-<caption><span class="caption-text"><strong>C₂: Candidate 2-Itemsets</strong></span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-text"><strong>C₂: Candidate 2-Itemsets</strong></span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 35.0%" />
 <col style="width: 30.0%" />
@@ -607,8 +609,8 @@ to make smarter decisions!</p>
 </ul>
 </div>
 <p><strong>Result: Frequent 2-Itemsets (L₂)</strong></p>
-<table class="docutils align-default" id="id6">
-<caption><span class="caption-text"><strong>L₂: Frequent Pairs</strong></span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-text"><strong>L₂: Frequent Pairs</strong></span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 40.0%" />
 <col style="width: 30.0%" />
@@ -718,8 +720,8 @@ to make smarter decisions!</p>
 <li><p>✅ <strong>Accepted</strong> (100% &gt; 60%)</p></li>
 </ul>
 <p><strong>Final Valid Rules:</strong></p>
-<table class="docutils align-default" id="id7">
-<caption><span class="caption-text"><strong>Accepted Association Rules</strong></span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id9">
+<caption><span class="caption-text"><strong>Accepted Association Rules</strong></span><a class="headerlink" href="#id9" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 35.0%" />
 <col style="width: 15.0%" />
@@ -801,20 +803,243 @@ Level 3: Item Triplets (L₃)
 {Powerbank}  ──→ {Charger}      [100%]
 </pre></div>
 </div>
-</section>
-</section>
 <hr class="docutils" />
-<section id="part-5-practice-exercises">
-<h2>🎯 Part 5: Practice Exercises<a class="headerlink" href="#part-5-practice-exercises" title="Link to this heading"></a></h2>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p><strong>Learning by Doing!</strong></p>
-<p>Try each exercise yourself first. Click “Show Solution” only after attempting.</p>
-<p>These exercises go from <strong>easy</strong> to <strong>challenging</strong> to build your confidence gradually.</p>
+<section id="calculate-lift-values">
+<h4>Calculate Lift Values:<a class="headerlink" href="#calculate-lift-values" title="Link to this heading"></a></h4>
+<p>Now let’s calculate Lift for each accepted rule to verify their strength.</p>
+<p><strong>For Rule 1:</strong> {Smartphone} → {Charger}</p>
+<div class="math notranslate nohighlight">
+\[\text{Lift} = \frac{\text{Support}(\text{Smartphone, Charger})}{\text{Support}(\text{Smartphone}) \times \text{Support}(\text{Charger})}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{Lift} = \frac{0.6}{0.8 \times 0.8} = \frac{0.6}{0.64} = 0.9375\]</div>
+<p><strong>Interpretation:</strong> Lift = 0.9375 &lt; 1 suggests slight negative correlation</p>
+<p><strong>For Rule 4:</strong> {Earphones} → {Smartphone}</p>
+<div class="math notranslate nohighlight">
+\[\text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25\]</div>
+<p><strong>Interpretation:</strong> Lift = 1.25 &gt; 1 indicates <strong>positive correlation</strong> — buying earphones increases likelihood of buying smartphones! [web:1][web:8]</p>
+<p><strong>For Rule 6:</strong> {Powerbank} → {Charger}</p>
+<div class="math notranslate nohighlight">
+\[\text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25\]</div>
+<p><strong>Interpretation:</strong> Lift = 1.25 &gt; 1 indicates <strong>strong positive association</strong></p>
+<p><strong>Updated Final Rules Table:</strong></p>
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-text"><strong>Accepted Association Rules (Complete Analysis)</strong></span><a class="headerlink" href="#id10" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 12.0%" />
+<col style="width: 12.0%" />
+<col style="width: 12.0%" />
+<col style="width: 34.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Rule</strong></p></th>
+<th class="head"><p><strong>Support</strong></p></th>
+<th class="head"><p><strong>Confidence</strong></p></th>
+<th class="head"><p><strong>Lift</strong></p></th>
+<th class="head"><p><strong>Business Action</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>{Smartphone} → {Charger}</p></td>
+<td><p>60%</p></td>
+<td><p>75%</p></td>
+<td><p>0.94</p></td>
+<td><p>Moderate recommendation (Lift &lt; 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>{Charger} → {Smartphone}</p></td>
+<td><p>60%</p></td>
+<td><p>75%</p></td>
+<td><p>0.94</p></td>
+<td><p>Moderate recommendation (Lift &lt; 1)</p></td>
+</tr>
+<tr class="row-even"><td><p>{Earphones} → {Smartphone}</p></td>
+<td><p>40%</p></td>
+<td><p>100%</p></td>
+<td><p>1.25</p></td>
+<td><p><strong>Strong bundle opportunity!</strong> (Lift &gt; 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>{Powerbank} → {Charger}</p></td>
+<td><p>40%</p></td>
+<td><p>100%</p></td>
+<td><p>1.25</p></td>
+<td><p><strong>Strong bundle opportunity!</strong> (Lift &gt; 1)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Key Insight:</strong> Although {Smartphone} → {Charger} has high confidence (75%),
+the Lift &lt; 1 suggests chargers are so popular (80% support) that the association
+isn’t particularly strong. Focus on rules with <strong>Lift &gt; 1</strong> for best results!</p>
+<p>Exercise 1: Calculate Support (Beginner)</p>
 </div>
 <hr class="docutils" />
-<section id="exercise-1-counting-support-beginner">
-<h3>Exercise 1: Counting Support (Beginner)<a class="headerlink" href="#exercise-1-counting-support-beginner" title="Link to this heading"></a></h3>
+<p><strong>Given Data:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Transaction</strong></p></th>
+<th class="head"><p><strong>Items</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>T1</p></td>
+<td><p>{Laptop, Mouse, Keyboard}</p></td>
+</tr>
+<tr class="row-odd"><td><p>T2</p></td>
+<td><p>{Laptop, Mouse}</p></td>
+</tr>
+<tr class="row-even"><td><p>T3</p></td>
+<td><p>{Mouse, Keyboard, USB}</p></td>
+</tr>
+<tr class="row-odd"><td><p>T4</p></td>
+<td><p>{Laptop, Keyboard}</p></td>
+</tr>
+<tr class="row-even"><td><p>T5</p></td>
+<td><p>{Mouse, USB}</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Question:</strong> Calculate Support for:
+1. {Mouse}
+2. {Laptop, Mouse}
+3. {Keyboard}</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Solution (Click to reveal)</p>
+<p><strong>1. Support({Mouse}):</strong></p>
+<ul class="simple">
+<li><p>Appears in: T1, T2, T3, T5 = 4 transactions</p></li>
+<li><p>Support = 4/5 = <strong>80%</strong></p></li>
+</ul>
+<p><strong>2. Support({Laptop, Mouse}):</strong></p>
+<ul class="simple">
+<li><p>Appears in: T1, T2 = 2 transactions</p></li>
+<li><p>Support = 2/5 = <strong>40%</strong></p></li>
+</ul>
+<p><strong>3. Support({Keyboard}):</strong></p>
+<ul class="simple">
+<li><p>Appears in: T1, T3, T4 = 3 transactions</p></li>
+<li><p>Support = 3/5 = <strong>60%</strong></p></li>
+</ul>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercise-2-calculate-confidence-intermediate">
+<h3>Exercise 2: Calculate Confidence (Intermediate)<a class="headerlink" href="#exercise-2-calculate-confidence-intermediate" title="Link to this heading"></a></h3>
+<p>Using the same dataset from Exercise 1:</p>
+<p><strong>Question:</strong> Calculate Confidence for the rule: {Laptop} → {Mouse}</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Solution (Click to reveal)</p>
+<p><strong>Step 1:</strong> Find Support({Laptop, Mouse})</p>
+<ul class="simple">
+<li><p>T1, T2 = 2 transactions</p></li>
+<li><p>Support = 2/5</p></li>
+</ul>
+<p><strong>Step 2:</strong> Find Support({Laptop})</p>
+<ul class="simple">
+<li><p>T1, T2, T4 = 3 transactions</p></li>
+<li><p>Support = 3/5</p></li>
+</ul>
+<p><strong>Step 3:</strong> Calculate Confidence</p>
+<div class="math notranslate nohighlight">
+\[\text{Confidence} = \frac{2/5}{3/5} = \frac{2}{3} = 66.67\%\]</div>
+<p><strong>Interpretation:</strong> 66.67% of laptop buyers also buy a mouse</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercise-3-calculate-lift-advanced">
+<h3>Exercise 3: Calculate Lift (Advanced)<a class="headerlink" href="#exercise-3-calculate-lift-advanced" title="Link to this heading"></a></h3>
+<p><strong>Question:</strong> For the rule {Laptop} → {Mouse}, calculate Lift and interpret the result.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Solution (Click to reveal)</p>
+<p><strong>Given from previous exercises:</strong></p>
+<ul class="simple">
+<li><p>Support({Laptop, Mouse}) = 2/5 = 0.4</p></li>
+<li><p>Support({Laptop}) = 3/5 = 0.6</p></li>
+<li><p>Support({Mouse}) = 4/5 = 0.8</p></li>
+</ul>
+<p><strong>Apply Lift formula:</strong></p>
+<div class="math notranslate nohighlight">
+\[\text{Lift} = \frac{0.4}{0.6 \times 0.8} = \frac{0.4}{0.48} = 0.833\]</div>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p>Lift = 0.833 &lt; 1 → <strong>Negative correlation</strong></p></li>
+<li><p>Laptops and mice are <strong>less likely</strong> to be bought together than by random chance</p></li>
+<li><p>Despite 66.67% confidence, this is NOT a strong association</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercise-4-apply-apriori-algorithm-challenge">
+<h3>Exercise 4: Apply Apriori Algorithm (Challenge)<a class="headerlink" href="#exercise-4-apply-apriori-algorithm-challenge" title="Link to this heading"></a></h3>
+<p><strong>Dataset:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Transaction</strong></p></th>
+<th class="head"><p><strong>Items</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>T1</p></td>
+<td><p>{A, B, C}</p></td>
+</tr>
+<tr class="row-odd"><td><p>T2</p></td>
+<td><p>{A, B}</p></td>
+</tr>
+<tr class="row-even"><td><p>T3</p></td>
+<td><p>{A, C}</p></td>
+</tr>
+<tr class="row-odd"><td><p>T4</p></td>
+<td><p>{B, C}</p></td>
+</tr>
+<tr class="row-even"><td><p>T5</p></td>
+<td><p>{A, B, C}</p></td>
+</tr>
+<tr class="row-odd"><td><p>T6</p></td>
+<td><p>{A, C}</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Task:</strong> Apply Apriori with <strong>Minimum Support = 50%</strong></p>
+<ol class="arabic simple">
+<li><p>Find all frequent 1-itemsets (L₁)</p></li>
+<li><p>Find all frequent 2-itemsets (L₂)</p></li>
+<li><p>Generate association rules with <strong>Minimum Confidence = 70%</strong></p></li>
+<li><p>Calculate Lift for each rule</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Complete Solution</p>
+<p><strong>Step 1: L₁ (Frequent 1-itemsets)</strong></p>
+<ul class="simple">
+<li><p>{A}: T1, T2, T3, T5, T6 = 5/6 = 83.33% ✓</p></li>
+<li><p>{B}: T1, T2, T4, T5 = 4/6 = 66.67% ✓</p></li>
+<li><p>{C}: T1, T3, T4, T5, T6 = 5/6 = 83.33% ✓</p></li>
+</ul>
+<p><strong>Step 2: L₂ (Frequent 2-itemsets)</strong></p>
+<ul class="simple">
+<li><p>{A, B}: T1, T2, T5 = 3/6 = 50% ✓</p></li>
+<li><p>{A, C}: T1, T3, T5, T6 = 4/6 = 66.67% ✓</p></li>
+<li><p>{B, C}: T1, T4, T5 = 3/6 = 50% ✓</p></li>
+</ul>
+<p><strong>Step 3: Generate Rules (Confidence ≥ 70%)</strong></p>
+<p>From {A, B}:
+- {A} → {B}: Confidence = 3/5 = 60% ✗
+- {B} → {A}: Confidence = 3/4 = 75% ✓</p>
+<p>From {A, C}:
+- {A} → {C}: Confidence = 4/5 = 80% ✓
+- {C} → {A}: Confidence = 4/5 = 80% ✓</p>
+<p>From {B, C}:
+- {B} → {C}: Confidence = 3/4 = 75% ✓
+- {C} → {B}: Confidence = 3/5 = 60% ✗</p>
+<p><strong>Step 4: Calculate Lift</strong></p>
+<ul class="simple">
+<li><p>{B} → {A}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)</p></li>
+<li><p>{A} → {C}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)</p></li>
+<li><p>{C} → {A}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)</p></li>
+<li><p>{B} → {C}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)</p></li>
+</ul>
+<p><strong>Conclusion:</strong> All rules have Lift &lt; 1, indicating no strong positive associations</p>
+</div>
 </section>
 </section>
 </section>
