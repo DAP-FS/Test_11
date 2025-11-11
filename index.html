@@ -68,7 +68,7 @@
 <li><a class="reference internal" href="#the-three-magic-formulas">The Three Magic Formulas</a><ul>
 <li><a class="reference internal" href="#formula-1-support-popularity">Formula 1: Support (Popularity)</a></li>
 <li><a class="reference internal" href="#formula-2-confidence-reliability">Formula 2: Confidence (Reliability)</a></li>
-<li><a class="reference internal" href="#formula-3-lift-real-connection-test">Formula 3: Lift (Real Connection Test)</a></li>
+<li><a class="reference internal" href="#formula-3-lift-real-connection">Formula 3: Lift (Real Connection)</a></li>
 </ul>
 </li>
 </ul>
@@ -78,16 +78,12 @@
 <li><a class="reference internal" href="#step-1-scan-database-and-count-items">Step 1: Scan Database and Count Items</a></li>
 <li><a class="reference internal" href="#step-2-generate-pairs-2-itemsets">Step 2: Generate Pairs (2-Itemsets)</a></li>
 <li><a class="reference internal" href="#step-3-try-to-create-triplets-3-itemsets">Step 3: Try to Create Triplets (3-Itemsets)</a></li>
-<li><a class="reference internal" href="#step-4-generate-association-rules">Step 4: Generate Association Rules</a><ul>
-<li><a class="reference internal" href="#from-smartphone-charger">From {Smartphone, Charger}:</a></li>
-<li><a class="reference internal" href="#from-smartphone-earphones">From {Smartphone, Earphones}:</a></li>
-<li><a class="reference internal" href="#from-charger-powerbank">From {Charger, Powerbank}:</a></li>
+<li><a class="reference internal" href="#step-4-generate-association-rules-with-support-confidence-lift">Step 4: Generate Association Rules (with Support, Confidence, Lift)</a></li>
+<li><a class="reference internal" href="#visual-summary-the-complete-process">Visual Summary: The Complete Process</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#visual-summary-the-complete-process">Visual Summary: The Complete Process</a><ul>
-<li><a class="reference internal" href="#calculate-lift-values">Calculate Lift Values:</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#part-5-practice-exercises">🎯 Part 5: Practice Exercises</a><ul>
+<li><a class="reference internal" href="#exercise-1-calculate-support-beginner">Exercise 1: Calculate Support (Beginner)</a></li>
 <li><a class="reference internal" href="#exercise-2-calculate-confidence-intermediate">Exercise 2: Calculate Confidence (Intermediate)</a></li>
 <li><a class="reference internal" href="#exercise-3-calculate-lift-advanced">Exercise 3: Calculate Lift (Advanced)</a></li>
 <li><a class="reference internal" href="#exercise-4-apply-apriori-algorithm-challenge">Exercise 4: Apply Apriori Algorithm (Challenge)</a></li>
@@ -125,10 +121,9 @@
 <h1>Apriori Algorithm : Friendly Session<a class="headerlink" href="#apriori-algorithm-friendly-session" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a href="#id1"><span class="problematic" id="id2">**</span></a>Overview ** 🎓</p>
+<p><strong>Overview</strong> 🎓</p>
 <p>Think of this lesson as a friendly guide. We’ll walk together, step by step, through
-the Apriori Algorithm. No rushing, no confusion—just clear explanations with
-real shopping examples.</p>
+the Apriori Algorithm. No rushing, no confusion—just clear explanations with real shopping examples.</p>
 <p><strong>What you’ll learn:</strong></p>
 <ul class="simple">
 <li><p>How to find patterns in shopping data (like which products are bought together)</p></li>
@@ -159,10 +154,7 @@ You notice something interesting:</p>
 <p>✅ <strong>Inventory Planning</strong> — Stock items that sell together</p>
 <p><strong>Real Companies Using This:</strong></p>
 <ul class="simple">
-<li><p><strong>Amazon</strong> — “Frequently bought together” section</p></li>
-<li><p><strong>Netflix</strong> — Movie and show recommendations</p></li>
-<li><p><strong>Spotify</strong> — Music playlist suggestions</p></li>
-<li><p><strong>Grocery Stores</strong> — Product shelf arrangement</p></li>
+<li><p><strong>Amazon</strong>, <strong>Netflix</strong>, <strong>Spotify</strong>, <strong>Grocery Stores</strong></p></li>
 </ul>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -173,32 +165,36 @@ to make smarter decisions!</p>
 <hr class="docutils" />
 <section id="key-terms-you-must-know">
 <h3>Key Terms You Must Know<a class="headerlink" href="#key-terms-you-must-know" title="Link to this heading"></a></h3>
-<p>Before we start, let’s learn some important words. Don’t worry—we’ll explain each one simply!</p>
-<dl class="glossary">
-<dt id="term-Transaction">Transaction<a class="headerlink" href="#term-Transaction" title="Link to this term"></a></dt><dd><p>A single shopping event where a customer buys one or more items.</p>
-<p><em>Example:</em> Customer buys {Smartphone, Charger, Earphones} in one purchase = 1 transaction</p>
+<dl class="simple glossary">
+<dt id="term-Transaction">Transaction<a class="headerlink" href="#term-Transaction" title="Link to this term"></a></dt><dd><dl class="simple">
+<dt>A single shopping event where a customer buys one or more items.</dt><dd><p>Example: Customer buys {Smartphone, Charger, Earphones} in one purchase = 1 transaction</p>
 </dd>
-<dt id="term-Itemset">Itemset<a class="headerlink" href="#term-Itemset" title="Link to this term"></a></dt><dd><p>A group of one or more items.</p>
-<p><em>Example:</em> {Smartphone} is a 1-itemset. {Smartphone, Charger} is a 2-itemset.</p>
+</dl>
 </dd>
-<dt id="term-Frequent-Itemset">Frequent Itemset<a class="headerlink" href="#term-Frequent-Itemset" title="Link to this term"></a></dt><dd><p>A group of items that appears <strong>often enough</strong> in your data (meets minimum support).</p>
-<p><em>Example:</em> If {Smartphone, Charger} appears in 50% of transactions, it’s frequent!</p>
+<dt id="term-Itemset">Itemset<a class="headerlink" href="#term-Itemset" title="Link to this term"></a></dt><dd><dl class="simple">
+<dt>A group of one or more items.</dt><dd><p>Example: {Smartphone} is a 1-itemset. {Smartphone, Charger} is a 2-itemset.</p>
 </dd>
-<dt id="term-Association-Rule">Association Rule<a class="headerlink" href="#term-Association-Rule" title="Link to this term"></a></dt><dd><p>An <strong>“if-then”</strong> pattern showing relationships between items.</p>
-<p><em>Example:</em> <strong>IF</strong> customer buys Smartphone <strong>THEN</strong> they also buy Charger</p>
-<p>Written as: {Smartphone} → {Charger}</p>
+</dl>
 </dd>
-<dt id="term-Support">Support<a class="headerlink" href="#term-Support" title="Link to this term"></a></dt><dd><p><strong>“How popular is this item/itemset?”</strong></p>
-<p>Measures how often an item appears in all transactions.</p>
-<p><em>Think:</em> Popularity score</p>
+<dt id="term-Frequent-Itemset">Frequent Itemset<a class="headerlink" href="#term-Frequent-Itemset" title="Link to this term"></a></dt><dd><dl class="simple">
+<dt>A group of items that appears <strong>often enough</strong> in your data (meets minimum support).</dt><dd><p>Example: If {Smartphone, Charger} appears in 50% of transactions, it’s frequent!</p>
 </dd>
-<dt id="term-Confidence">Confidence<a class="headerlink" href="#term-Confidence" title="Link to this term"></a></dt><dd><p><strong>“How reliable is this rule?”</strong></p>
-<p>If someone buys Item A, how likely are they to also buy Item B?</p>
-<p><em>Think:</em> Reliability score</p>
+</dl>
 </dd>
-<dt id="term-Lift">Lift<a class="headerlink" href="#term-Lift" title="Link to this term"></a></dt><dd><p><strong>“Is this a real pattern or just coincidence?”</strong></p>
-<p>Tells us if items truly influence each other.</p>
-<p><em>Think:</em> Strength indicator</p>
+<dt id="term-Association-Rule">Association Rule<a class="headerlink" href="#term-Association-Rule" title="Link to this term"></a></dt><dd><dl class="simple">
+<dt>An <strong>“if-then”</strong> pattern showing relationships between items.</dt><dd><p>Example: <strong>IF</strong> customer buys Smartphone <strong>THEN</strong> they also buy Charger
+Written as: {Smartphone} → {Charger}</p>
+</dd>
+</dl>
+</dd>
+<dt id="term-Support">Support<a class="headerlink" href="#term-Support" title="Link to this term"></a></dt><dd><p><strong>“How popular is this item/itemset?”</strong>
+Measures how often an item appears in all transactions.</p>
+</dd>
+<dt id="term-Confidence">Confidence<a class="headerlink" href="#term-Confidence" title="Link to this term"></a></dt><dd><p><strong>“How reliable is this rule?”</strong>
+If someone buys Item A, how likely are they to also buy Item B?</p>
+</dd>
+<dt id="term-Lift">Lift<a class="headerlink" href="#term-Lift" title="Link to this term"></a></dt><dd><p><strong>“Is this a real pattern or just coincidence?”</strong>
+Tells us if items truly influence each other.</p>
 </dd>
 </dl>
 <div class="admonition tip">
@@ -212,9 +208,8 @@ to make smarter decisions!</p>
 <h2>📊 Part 2: Meet Your Practice Dataset<a class="headerlink" href="#part-2-meet-your-practice-dataset" title="Link to this heading"></a></h2>
 <section id="our-example-online-shopping-transactions">
 <h3>Our Example: Online Shopping Transactions<a class="headerlink" href="#our-example-online-shopping-transactions" title="Link to this heading"></a></h3>
-<p>Let’s use a <strong>simple dataset</strong> of 5 shopping transactions from an online electronics store:</p>
-<table class="docutils align-default" id="id3">
-<caption><span class="caption-text"><strong>Transaction Database</strong></span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text"><strong>Transaction Database</strong></span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 25.0%" />
 <col style="width: 75.0%" />
@@ -256,14 +251,13 @@ to make smarter decisions!</p>
 <hr class="docutils" />
 <section id="quick-analysis-what-do-you-notice">
 <h3>Quick Analysis: What Do You Notice?<a class="headerlink" href="#quick-analysis-what-do-you-notice" title="Link to this heading"></a></h3>
-<p>Before we apply the algorithm, let’s observe the</p>
 <p><strong>Count each item:</strong></p>
 <ul class="simple">
-<li><p><strong>Smartphone</strong> appears in: T1, T2, T3, T5 = <strong>4 times</strong> (80%)</p></li>
-<li><p><strong>Charger</strong> appears in: T1, T2, T4, T5 = <strong>4 times</strong> (80%)</p></li>
-<li><p><strong>Earphones</strong> appears in: T1, T3 = <strong>2 times</strong> (40%)</p></li>
-<li><p><strong>Powerbank</strong> appears in: T4, T5 = <strong>2 times</strong> (40%)</p></li>
-<li><p><strong>Case</strong> appears in: T3 = <strong>1 time</strong> (20%)</p></li>
+<li><p><strong>Smartphone:</strong> 4 times (T1, T2, T3, T5) = <strong>80%</strong></p></li>
+<li><p><strong>Charger:</strong> 4 times (T1, T2, T4, T5) = <strong>80%</strong></p></li>
+<li><p><strong>Earphones:</strong> 2 times (T1, T3) = <strong>40%</strong></p></li>
+<li><p><strong>Powerbank:</strong> 2 times (T4, T5) = <strong>40%</strong></p></li>
+<li><p><strong>Case:</strong> 1 time (T3) = <strong>20%</strong></p></li>
 </ul>
 <p><strong>First Observation:</strong> Case is not popular (only 20%). We might remove it!</p>
 </section>
@@ -273,156 +267,44 @@ to make smarter decisions!</p>
 <h2>🧠 Part 3: Core Concepts Explained<a class="headerlink" href="#part-3-core-concepts-explained" title="Link to this heading"></a></h2>
 <section id="the-apriori-principle-most-important-idea">
 <h3>The Apriori Principle (Most Important Idea!)<a class="headerlink" href="#the-apriori-principle-most-important-idea" title="Link to this heading"></a></h3>
-<p><strong>Simple Analogy:</strong></p>
-<p>Think of building blocks:</p>
-<ul class="simple">
-<li><p>If a tower of <strong>3 blocks</strong> is strong, then towers of <strong>2 blocks</strong> and <strong>1 block</strong> must also be strong</p></li>
-<li><p>If a tower of <strong>3 blocks</strong> is weak, any <strong>4-block tower</strong> built on it will also be weak</p></li>
-</ul>
-<p><strong>Applied to Shopping:</strong></p>
-<p>If {Smartphone, Charger, Earphones} is a frequent 3-item group, then:</p>
-<ul class="simple">
-<li><p>{Smartphone, Charger} must be frequent ✓</p></li>
-<li><p>{Smartphone, Earphones} must be frequent ✓</p></li>
-<li><p>{Charger, Earphones} must be frequent ✓</p></li>
-<li><p>{Smartphone}, {Charger}, {Earphones} must be frequent ✓</p></li>
-</ul>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p><strong>The Apriori Principle (Official Version):</strong></p>
-<p><em>“If an itemset is frequent, then all of its subsets must also be frequent.”</em></p>
-<p><strong>Reverse Rule (Pruning):</strong></p>
-<p><em>“If an itemset is infrequent, all its supersets must also be infrequent.”</em></p>
-</div>
-<p><strong>Why This Matters:</strong></p>
-<ul class="simple">
-<li><p>Saves <strong>LOTS of time</strong> by not checking impossible combinations</p></li>
-<li><p>Makes the algorithm efficient even with large datasets</p></li>
-</ul>
-<p><strong>Example of Time Saving:</strong></p>
-<p>Without Apriori Principle:
-- With 1000 items, you’d check: 1000 + 499,500 + 166,167,000 + … combinations = <strong>FOREVER!</strong></p>
-<p>With Apriori Principle:
-- Remove infrequent items early → Only check promising combinations = <strong>Minutes!</strong></p>
+<p><strong>Simple Analogy:</strong>
+If a tower of <strong>3 blocks</strong> is strong, its pieces (2 blocks, 1 block) must also be strong.
+If a 3-block tower is weak, any bigger tower using those blocks will also be weak.</p>
+<dl class="simple">
+<dt><strong>Apriori Principle (Official):</strong></dt><dd><p><em>“If an itemset is frequent, then all of its subsets must also be frequent.”</em>
+<em>“If an itemset is infrequent, all its supersets must also be infrequent.”</em></p>
+</dd>
+</dl>
+<p><strong>Why This Matters:</strong>
+Saves lots of time and avoids checking impossible combinations!</p>
 </section>
 <hr class="docutils" />
 <section id="the-three-magic-formulas">
 <h3>The Three Magic Formulas<a class="headerlink" href="#the-three-magic-formulas" title="Link to this heading"></a></h3>
-<p>Let’s learn the three most important calculations in Apriori. We’ll explain slowly!</p>
 <section id="formula-1-support-popularity">
 <h4>Formula 1: Support (Popularity)<a class="headerlink" href="#formula-1-support-popularity" title="Link to this heading"></a></h4>
-<p><strong>What it answers:</strong> “How often does this item/itemset appear?”</p>
-<p><strong>Formula:</strong></p>
 <div class="math notranslate nohighlight">
 \[\text{Support}(A) = \frac{\text{Number of transactions containing } A}{\text{Total number of transactions}}\]</div>
-<p><strong>Step-by-Step Example:</strong></p>
-<p>Find Support({Smartphone}):</p>
-<dl class="simple">
-<dt><strong>Step 1:</strong> Count transactions with Smartphone</dt><dd><ul class="simple">
-<li><p>T1 ✓, T2 ✓, T3 ✓, T4 ✗, T5 ✓</p></li>
-<li><p><strong>Count = 4</strong></p></li>
-</ul>
-</dd>
-</dl>
-<p><strong>Step 2:</strong> Total transactions = 5</p>
-<p><strong>Step 3:</strong> Apply formula</p>
+<p><em>Example</em> (Smartphone):</p>
 <div class="math notranslate nohighlight">
 \[\text{Support}(\text{Smartphone}) = \frac{4}{5} = 0.8 = 80\%\]</div>
-<p><strong>Interpretation:</strong> Smartphones appear in 80% of all purchases — very popular!</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p><strong>Quick Check:</strong> Higher support = More popular item</p>
-</div>
 </section>
 <section id="formula-2-confidence-reliability">
 <h4>Formula 2: Confidence (Reliability)<a class="headerlink" href="#formula-2-confidence-reliability" title="Link to this heading"></a></h4>
-<p><strong>What it answers:</strong> “If someone buys A, how likely are they to buy B?”</p>
-<p><strong>Formula:</strong></p>
 <div class="math notranslate nohighlight">
 \[\text{Confidence}(A \rightarrow B) = \frac{\text{Support}(A \cup B)}{\text{Support}(A)}\]</div>
-<p><strong>Simple Translation:</strong></p>
-<div class="math notranslate nohighlight">
-\[\text{Confidence} = \frac{\text{Times both A and B appear together}}{\text{Times A appears}}\]</div>
-<p><strong>Step-by-Step Example:</strong></p>
-<p>Find Confidence for rule: {Smartphone} → {Charger}</p>
-<dl class="simple">
-<dt><strong>Step 1:</strong> Find transactions with BOTH Smartphone AND Charger</dt><dd><ul class="simple">
-<li><p>T1 ✓, T2 ✓, T5 ✓</p></li>
-<li><p><strong>Count = 3</strong></p></li>
-</ul>
-</dd>
-<dt><strong>Step 2:</strong> Find transactions with just Smartphone</dt><dd><ul class="simple">
-<li><p>T1, T2, T3, T5</p></li>
-<li><p><strong>Count = 4</strong></p></li>
-</ul>
-</dd>
-</dl>
-<p><strong>Step 3:</strong> Apply formula</p>
+<p><em>Example</em> ({Smartphone} → {Charger}):</p>
 <div class="math notranslate nohighlight">
 \[\text{Confidence}(\text{Smartphone} \rightarrow \text{Charger}) = \frac{3}{4} = 0.75 = 75\%\]</div>
-<p><strong>Interpretation:</strong> 75% of smartphone buyers also buy chargers — strong relationship!</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p><strong>Quick Check:</strong>
-- Confidence &gt; 70% = Strong rule
-- Confidence 50-70% = Moderate rule
-- Confidence &lt; 50% = Weak rule</p>
-</div>
 </section>
-<section id="formula-3-lift-real-connection-test">
-<h4>Formula 3: Lift (Real Connection Test)<a class="headerlink" href="#formula-3-lift-real-connection-test" title="Link to this heading"></a></h4>
-<p><strong>What it answers:</strong> “Is this a real pattern or just random coincidence?”</p>
-<p><strong>Formula:</strong></p>
+<section id="formula-3-lift-real-connection">
+<h4>Formula 3: Lift (Real Connection)<a class="headerlink" href="#formula-3-lift-real-connection" title="Link to this heading"></a></h4>
 <div class="math notranslate nohighlight">
-\[\text{Lift}(A \rightarrow B) = \frac{\text{Confidence}(A \rightarrow B)}{\text{Support}(B)}\]</div>
-<p><strong>Simple Translation:</strong></p>
+\[\text{Lift}(A \rightarrow B) = \frac{\text{Support}(A \cup B)}{\text{Support}(A) \times \text{Support}(B)}\]</div>
+<p><em>Example</em> ({Smartphone} → {Charger}):</p>
 <div class="math notranslate nohighlight">
-\[\text{Lift} = \frac{\text{How often B comes with A}}{\text{How often B appears normally}}\]</div>
-<p><strong>Understanding Lift Values:</strong></p>
-<table class="docutils align-default" id="id4">
-<caption><span class="caption-text"><strong>Lift Interpretation Guide</strong></span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
-<colgroup>
-<col style="width: 25.0%" />
-<col style="width: 75.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Lift Value</strong></p></th>
-<th class="head"><p><strong>Meaning</strong></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Lift &gt; 1</p></td>
-<td><p><strong>Positive correlation</strong> — Buying A increases chance of buying B (Good pattern!)</p></td>
-</tr>
-<tr class="row-odd"><td><p>Lift = 1</p></td>
-<td><p><strong>Independent</strong> — A and B have no relationship (Random)</p></td>
-</tr>
-<tr class="row-even"><td><p>Lift &lt; 1</p></td>
-<td><p><strong>Negative correlation</strong> — Buying A decreases chance of buying B (Avoid this rule)</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Step-by-Step Example:</strong></p>
-<p>Find Lift for rule: {Smartphone} → {Charger}</p>
-<dl class="simple">
-<dt><strong>Step 1:</strong> We already know:</dt><dd><ul class="simple">
-<li><p>Confidence(Smartphone → Charger) = 0.75</p></li>
-</ul>
-</dd>
-<dt><strong>Step 2:</strong> Find Support({Charger})</dt><dd><ul class="simple">
-<li><p>Charger appears in T1, T2, T4, T5 = 4 transactions</p></li>
-<li><p>Support = 4/5 = 0.8</p></li>
-</ul>
-</dd>
-</dl>
-<p><strong>Step 3:</strong> Apply formula</p>
-<div class="math notranslate nohighlight">
-\[\text{Lift}(\text{Smartphone} \rightarrow \text{Charger}) = \frac{0.75}{0.8} = 0.9375\]</div>
-<p><strong>Interpretation:</strong> Lift = 0.9375 &lt; 1 suggests slight negative correlation.</p>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p><strong>Wait, this seems wrong!</strong> Let’s recalculate in exercises section with correct data.</p>
-</div>
+\[\text{Lift}(\text{Smartphone} \rightarrow \text{Charger}) = \frac{0.6}{0.8 \times 0.8} = 0.9375\]</div>
+<p><strong>Interpretation:</strong> Lift &lt; 1 suggests not a strong association. (We’ll fix and explain this in depth below!)</p>
 </section>
 </section>
 </section>
@@ -431,23 +313,19 @@ to make smarter decisions!</p>
 <h2>📋 Part 4: The Algorithm Step-by-Step<a class="headerlink" href="#part-4-the-algorithm-step-by-step" title="Link to this heading"></a></h2>
 <section id="overview-how-apriori-works">
 <h3>Overview: How Apriori Works<a class="headerlink" href="#overview-how-apriori-works" title="Link to this heading"></a></h3>
-<p><strong>The Big Picture (5 Main Steps):</strong></p>
-<ol class="arabic simple">
-<li><p><strong>Start with individual items</strong> → Count how often each appears</p></li>
-<li><p><strong>Remove unpopular items</strong> → Keep only items meeting minimum support</p></li>
-<li><p><strong>Create pairs</strong> → Combine frequent items into 2-item groups</p></li>
-<li><p><strong>Repeat for larger groups</strong> → Make 3-item, 4-item groups (if possible)</p></li>
-<li><p><strong>Generate rules</strong> → Create “if-then” recommendations</p></li>
-</ol>
-<p>Let’s do this together with our shopping data!</p>
+<p><strong>Big Steps:</strong>
+1. <strong>Start with individual items</strong> → Count each
+2. <strong>Remove unpopular items</strong>
+3. <strong>Create pairs</strong> from survivors
+4. <strong>Repeat for larger groups</strong>
+5. <strong>Generate rules</strong> for recommendations</p>
+<p>Let’s try with our shopping data!</p>
 </section>
 <hr class="docutils" />
 <section id="step-1-scan-database-and-count-items">
 <h3>Step 1: Scan Database and Count Items<a class="headerlink" href="#step-1-scan-database-and-count-items" title="Link to this heading"></a></h3>
-<p><strong>What we do:</strong> Count each item’s appearances</p>
-<p><strong>Result: Candidate 1-Itemsets (C₁)</strong></p>
-<table class="docutils align-default" id="id5">
-<caption><span class="caption-text"><strong>C₁: All Single Items</strong></span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text"><strong>C₁: All Single Items</strong></span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 30.0%" />
 <col style="width: 25.0%" />
@@ -492,66 +370,16 @@ to make smarter decisions!</p>
 <p><strong>Apply Minimum Support Filter (40%):</strong></p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p><strong>Pruning Alert!</strong> Remove items with support &lt; 40%</p>
-<ul class="simple">
-<li><p>❌ Remove: {Case} (only 20%)</p></li>
-<li><p>✅ Keep: Everything else</p></li>
-</ul>
+<p>❌ Remove: {Case} (20%) — Not frequent enough</p>
 </div>
-<p><strong>Result: Frequent 1-Itemsets (L₁)</strong></p>
-<table class="docutils align-default" id="id6">
-<caption><span class="caption-text"><strong>L₁: Frequent Single Items</strong></span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
-<colgroup>
-<col style="width: 40.0%" />
-<col style="width: 30.0%" />
-<col style="width: 30.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Itemset</strong></p></th>
-<th class="head"><p><strong>Support Count</strong></p></th>
-<th class="head"><p><strong>Support %</strong></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>{Smartphone}</p></td>
-<td><p>4</p></td>
-<td><p>80%</p></td>
-</tr>
-<tr class="row-odd"><td><p>{Charger}</p></td>
-<td><p>4</p></td>
-<td><p>80%</p></td>
-</tr>
-<tr class="row-even"><td><p>{Earphones}</p></td>
-<td><p>2</p></td>
-<td><p>40%</p></td>
-</tr>
-<tr class="row-odd"><td><p>{Powerbank}</p></td>
-<td><p>2</p></td>
-<td><p>40%</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>Progress:</strong> We reduced 5 items to 4 frequent items. Case is eliminated!</p>
-</div>
+<p>Remaining: Smartphone, Charger, Earphones, Powerbank</p>
 </section>
 <hr class="docutils" />
 <section id="step-2-generate-pairs-2-itemsets">
 <h3>Step 2: Generate Pairs (2-Itemsets)<a class="headerlink" href="#step-2-generate-pairs-2-itemsets" title="Link to this heading"></a></h3>
-<p><strong>What we do:</strong> Combine items from L₁ to create pairs, then count occurrences</p>
-<p><strong>Possible Pairs from L₁:</strong></p>
-<ul class="simple">
-<li><p>{Smartphone, Charger}</p></li>
-<li><p>{Smartphone, Earphones}</p></li>
-<li><p>{Smartphone, Powerbank}</p></li>
-<li><p>{Charger, Earphones}</p></li>
-<li><p>{Charger, Powerbank}</p></li>
-<li><p>{Earphones, Powerbank}</p></li>
-</ul>
-<p><strong>Count each pair:</strong></p>
-<table class="docutils align-default" id="id7">
-<caption><span class="caption-text"><strong>C₂: Candidate 2-Itemsets</strong></span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
+<p><strong>Possible Pairs:</strong> {Smartphone, Charger}, {Smartphone, Earphones}, {Smartphone, Powerbank}, {Charger, Earphones}, {Charger, Powerbank}, {Earphones, Powerbank}</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text"><strong>C₂: Candidate 2-Itemsets</strong></span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 35.0%" />
 <col style="width: 30.0%" />
@@ -601,16 +429,28 @@ to make smarter decisions!</p>
 <p><strong>Apply Minimum Support Filter (40%):</strong></p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p><strong>Pruning Alert!</strong> Remove pairs with support &lt; 40%</p>
-<ul class="simple">
-<li><p>❌ Remove: {Smartphone, Powerbank} (20%)</p></li>
-<li><p>❌ Remove: {Charger, Earphones} (20%)</p></li>
-<li><p>❌ Remove: {Earphones, Powerbank} (0%)</p></li>
-</ul>
+<p>❌ Remove: {Smartphone, Powerbank} (20%)
+❌ Remove: {Charger, Earphones} (20%)
+❌ Remove: {Earphones, Powerbank} (0%)</p>
 </div>
-<p><strong>Result: Frequent 2-Itemsets (L₂)</strong></p>
-<table class="docutils align-default" id="id8">
-<caption><span class="caption-text"><strong>L₂: Frequent Pairs</strong></span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
+<p>Remaining pairs: {Smartphone, Charger}, {Smartphone, Earphones}, {Charger, Powerbank}</p>
+</section>
+<hr class="docutils" />
+<section id="step-3-try-to-create-triplets-3-itemsets">
+<h3>Step 3: Try to Create Triplets (3-Itemsets)<a class="headerlink" href="#step-3-try-to-create-triplets-3-itemsets" title="Link to this heading"></a></h3>
+<p>Check all pairs — none can make a valid 3-itemset, since not all their pairs are frequent (fails Apriori Principle).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>No frequent 3-itemsets can be formed.</strong>
+<strong>Algorithm stops here!</strong></p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-4-generate-association-rules-with-support-confidence-lift">
+<h3>Step 4: Generate Association Rules (with Support, Confidence, Lift)<a class="headerlink" href="#step-4-generate-association-rules-with-support-confidence-lift" title="Link to this heading"></a></h3>
+<p>Set Minimum Confidence = 60%</p>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text"><strong>Frequent Pairs and Support</strong></span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 40.0%" />
 <col style="width: 30.0%" />
@@ -637,199 +477,54 @@ to make smarter decisions!</p>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>Progress:</strong> We found 3 frequent pairs! These are items often bought together.</p>
-</div>
-</section>
-<hr class="docutils" />
-<section id="step-3-try-to-create-triplets-3-itemsets">
-<h3>Step 3: Try to Create Triplets (3-Itemsets)<a class="headerlink" href="#step-3-try-to-create-triplets-3-itemsets" title="Link to this heading"></a></h3>
-<p><strong>What we do:</strong> Combine pairs from L₂ to create triplets</p>
-<p><strong>Important Rule (Apriori Principle):</strong></p>
-<p>To create a 3-itemset, <strong>ALL its 2-subsets must be in L₂</strong></p>
-<p><strong>Attempt 1:</strong> {Smartphone, Charger, Earphones}</p>
-<p>Check its 2-subsets:
-- {Smartphone, Charger} ✓ (in L₂)
-- {Smartphone, Earphones} ✓ (in L₂)
-- {Charger, Earphones} ✗ (NOT in L₂)</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p><strong>Result:</strong> Cannot create this triplet because {Charger, Earphones} is not frequent!</p>
-<p>This is the Apriori Principle in action—saving us time!</p>
-</div>
-<p><strong>Attempt 2:</strong> {Smartphone, Charger, Powerbank}</p>
-<p>Check its 2-subsets:
-- {Smartphone, Charger} ✓ (in L₂)
-- {Smartphone, Powerbank} ✗ (NOT in L₂)
-- {Charger, Powerbank} ✓ (in L₂)</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p><strong>Result:</strong> Cannot create this triplet either!</p>
-</div>
-<p><strong>Conclusion:</strong></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>No frequent 3-itemsets can be formed.</strong></p>
-<p><strong>Algorithm stops here!</strong></p>
-</div>
-</section>
-<hr class="docutils" />
-<section id="step-4-generate-association-rules">
-<h3>Step 4: Generate Association Rules<a class="headerlink" href="#step-4-generate-association-rules" title="Link to this heading"></a></h3>
-<p>Now we create “if-then” rules from our frequent itemsets (L₂).</p>
-<p><strong>Set our threshold:</strong> Minimum Confidence = 60%</p>
-<section id="from-smartphone-charger">
-<h4>From {Smartphone, Charger}:<a class="headerlink" href="#from-smartphone-charger" title="Link to this heading"></a></h4>
-<p><strong>Rule 1:</strong> {Smartphone} → {Charger}</p>
+<p><strong>Now analyze each pair for possible rules:</strong></p>
 <ul class="simple">
-<li><p>Support({Smartphone, Charger}) = 3/5 = 60%</p></li>
+<li><dl class="simple">
+<dt>{Smartphone} → {Charger}:</dt><dd><ul>
+<li><p>Support = 60%</p></li>
 <li><p>Confidence = 3/4 = 75%</p></li>
-<li><p>✅ <strong>Accepted</strong> (75% &gt; 60%)</p></li>
+<li><p>Lift = 0.6 / (0.8 × 0.8) = 0.9375</p></li>
 </ul>
-<p><strong>Rule 2:</strong> {Charger} → {Smartphone}</p>
-<ul class="simple">
-<li><p>Support({Smartphone, Charger}) = 3/5 = 60%</p></li>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>{Charger} → {Smartphone}:</dt><dd><ul>
+<li><p>Support = 60%</p></li>
 <li><p>Confidence = 3/4 = 75%</p></li>
-<li><p>✅ <strong>Accepted</strong> (75% &gt; 60%)</p></li>
+<li><p>Lift = 0.6 / (0.8 × 0.8) = 0.9375</p></li>
 </ul>
-</section>
-<section id="from-smartphone-earphones">
-<h4>From {Smartphone, Earphones}:<a class="headerlink" href="#from-smartphone-earphones" title="Link to this heading"></a></h4>
-<p><strong>Rule 3:</strong> {Smartphone} → {Earphones}</p>
-<ul class="simple">
-<li><p>Confidence = 2/4 = 50%</p></li>
-<li><p>❌ <strong>Rejected</strong> (50% &lt; 60%)</p></li>
-</ul>
-<p><strong>Rule 4:</strong> {Earphones} → {Smartphone}</p>
-<ul class="simple">
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>{Earphones} → {Smartphone}:</dt><dd><ul>
+<li><p>Support = 40%</p></li>
 <li><p>Confidence = 2/2 = 100%</p></li>
-<li><p>✅ <strong>Accepted</strong> (100% &gt; 60%)</p></li>
+<li><p>Lift = 0.4 / (0.4 × 0.8) = 1.25</p></li>
 </ul>
-</section>
-<section id="from-charger-powerbank">
-<h4>From {Charger, Powerbank}:<a class="headerlink" href="#from-charger-powerbank" title="Link to this heading"></a></h4>
-<p><strong>Rule 5:</strong> {Charger} → {Powerbank}</p>
-<ul class="simple">
-<li><p>Confidence = 2/4 = 50%</p></li>
-<li><p>❌ <strong>Rejected</strong> (50% &lt; 60%)</p></li>
-</ul>
-<p><strong>Rule 6:</strong> {Powerbank} → {Charger}</p>
-<ul class="simple">
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>{Powerbank} → {Charger}:</dt><dd><ul>
+<li><p>Support = 40%</p></li>
 <li><p>Confidence = 2/2 = 100%</p></li>
-<li><p>✅ <strong>Accepted</strong> (100% &gt; 60%)</p></li>
+<li><p>Lift = 0.4 / (0.4 × 0.8) = 1.25</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 <p><strong>Final Valid Rules:</strong></p>
-<table class="docutils align-default" id="id9">
-<caption><span class="caption-text"><strong>Accepted Association Rules</strong></span><a class="headerlink" href="#id9" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text"><strong>Accepted Association Rules (with Lift)</strong></span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
 <colgroup>
-<col style="width: 35.0%" />
-<col style="width: 15.0%" />
-<col style="width: 15.0%" />
-<col style="width: 35.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Rule</strong></p></th>
-<th class="head"><p><strong>Support</strong></p></th>
-<th class="head"><p><strong>Confidence</strong></p></th>
-<th class="head"><p><strong>Business Action</strong></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>{Smartphone} → {Charger}</p></td>
-<td><p>60%</p></td>
-<td><p>75%</p></td>
-<td><p>Recommend chargers to smartphone buyers</p></td>
-</tr>
-<tr class="row-odd"><td><p>{Charger} → {Smartphone}</p></td>
-<td><p>60%</p></td>
-<td><p>75%</p></td>
-<td><p>Recommend smartphones to charger buyers</p></td>
-</tr>
-<tr class="row-even"><td><p>{Earphones} → {Smartphone}</p></td>
-<td><p>40%</p></td>
-<td><p>100%</p></td>
-<td><p>Bundle earphones with smartphones</p></td>
-</tr>
-<tr class="row-odd"><td><p>{Powerbank} → {Charger}</p></td>
-<td><p>40%</p></td>
-<td><p>100%</p></td>
-<td><p>Bundle powerbanks with chargers</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<hr class="docutils" />
-<section id="visual-summary-the-complete-process">
-<h3>Visual Summary: The Complete Process<a class="headerlink" href="#visual-summary-the-complete-process" title="Link to this heading"></a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>📦 APRIORI ALGORITHM FLOW
-
-Level 0: Original Data
-┌────────────────────────────────────┐
-│ 5 Transactions with 5 Items        │
-│ T1, T2, T3, T4, T5                 │
-└────────────────────────────────────┘
-               ↓
-
-Level 1: Individual Items (L₁)
-┌──────────────┬─────────┬───────────┬────────────┐
-│ Smartphone   │ Charger │ Earphones │ Powerbank  │
-│   (80%)      │  (80%)  │   (40%)   │   (40%)    │
-└──────────────┴─────────┴───────────┴────────────┘
-   ✗ Case removed (20% &lt; 40%)
-               ↓
-
-Level 2: Item Pairs (L₂)
-┌──────────────────────┬────────────────────┬─────────────────┐
-│ {Smartphone,         │ {Smartphone,       │ {Charger,       │
-│  Charger} (60%)      │  Earphones} (40%)  │  Powerbank}(40%)│
-└──────────────────────┴────────────────────┴─────────────────┘
-   ✗ 3 other pairs removed (&lt; 40%)
-               ↓
-
-Level 3: Item Triplets (L₃)
-┌───────────────────────────┐
-│  (Empty - None Found)     │
-│  Algorithm Stops          │
-└───────────────────────────┘
-               ↓
-
-📊 ASSOCIATION RULES (Confidence ≥ 60%)
-─────────────────────────────────────────
-{Smartphone} ──→ {Charger}      [75%]
-{Charger}    ──→ {Smartphone}   [75%]
-{Earphones}  ──→ {Smartphone}   [100%]
-{Powerbank}  ──→ {Charger}      [100%]
-</pre></div>
-</div>
-<hr class="docutils" />
-<section id="calculate-lift-values">
-<h4>Calculate Lift Values:<a class="headerlink" href="#calculate-lift-values" title="Link to this heading"></a></h4>
-<p>Now let’s calculate Lift for each accepted rule to verify their strength.</p>
-<p><strong>For Rule 1:</strong> {Smartphone} → {Charger}</p>
-<div class="math notranslate nohighlight">
-\[\text{Lift} = \frac{\text{Support}(\text{Smartphone, Charger})}{\text{Support}(\text{Smartphone}) \times \text{Support}(\text{Charger})}\]</div>
-<div class="math notranslate nohighlight">
-\[\text{Lift} = \frac{0.6}{0.8 \times 0.8} = \frac{0.6}{0.64} = 0.9375\]</div>
-<p><strong>Interpretation:</strong> Lift = 0.9375 &lt; 1 suggests slight negative correlation</p>
-<p><strong>For Rule 4:</strong> {Earphones} → {Smartphone}</p>
-<div class="math notranslate nohighlight">
-\[\text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25\]</div>
-<p><strong>Interpretation:</strong> Lift = 1.25 &gt; 1 indicates <strong>positive correlation</strong> — buying earphones increases likelihood of buying smartphones! [web:1][web:8]</p>
-<p><strong>For Rule 6:</strong> {Powerbank} → {Charger}</p>
-<div class="math notranslate nohighlight">
-\[\text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25\]</div>
-<p><strong>Interpretation:</strong> Lift = 1.25 &gt; 1 indicates <strong>strong positive association</strong></p>
-<p><strong>Updated Final Rules Table:</strong></p>
-<table class="docutils align-default" id="id10">
-<caption><span class="caption-text"><strong>Accepted Association Rules (Complete Analysis)</strong></span><a class="headerlink" href="#id10" title="Link to this table"></a></caption>
-<colgroup>
-<col style="width: 30.0%" />
-<col style="width: 12.0%" />
-<col style="width: 12.0%" />
-<col style="width: 12.0%" />
-<col style="width: 34.0%" />
+<col style="width: 28.6%" />
+<col style="width: 11.2%" />
+<col style="width: 13.3%" />
+<col style="width: 10.2%" />
+<col style="width: 36.7%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p><strong>Rule</strong></p></th>
@@ -844,36 +539,71 @@ Level 3: Item Triplets (L₃)
 <td><p>60%</p></td>
 <td><p>75%</p></td>
 <td><p>0.94</p></td>
-<td><p>Moderate recommendation (Lift &lt; 1)</p></td>
+<td><p>Recommend chargers to smartphone buyers (confidence is strong, but lift shows association is no stronger than chance)</p></td>
 </tr>
 <tr class="row-odd"><td><p>{Charger} → {Smartphone}</p></td>
 <td><p>60%</p></td>
 <td><p>75%</p></td>
 <td><p>0.94</p></td>
-<td><p>Moderate recommendation (Lift &lt; 1)</p></td>
+<td><p>Recommend smartphones to charger buyers</p></td>
 </tr>
 <tr class="row-even"><td><p>{Earphones} → {Smartphone}</p></td>
 <td><p>40%</p></td>
 <td><p>100%</p></td>
 <td><p>1.25</p></td>
-<td><p><strong>Strong bundle opportunity!</strong> (Lift &gt; 1)</p></td>
+<td><p>Bundle earphones with smartphones (<strong>lift &gt; 1: strong bundling</strong>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>{Powerbank} → {Charger}</p></td>
 <td><p>40%</p></td>
 <td><p>100%</p></td>
 <td><p>1.25</p></td>
-<td><p><strong>Strong bundle opportunity!</strong> (Lift &gt; 1)</p></td>
+<td><p>Bundle powerbanks with chargers (<strong>lift &gt; 1: strong bundling</strong>)</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p><strong>Key Insight:</strong> Although {Smartphone} → {Charger} has high confidence (75%),
-the Lift &lt; 1 suggests chargers are so popular (80% support) that the association
-isn’t particularly strong. Focus on rules with <strong>Lift &gt; 1</strong> for best results!</p>
-<p>Exercise 1: Calculate Support (Beginner)</p>
+<p><strong>Key:</strong> Use support for popularity, confidence for reliability, and <strong>lift</strong> to find true bonds.
+Lift greater than 1 signals real, useful connections for business action!</p>
 </div>
+</section>
 <hr class="docutils" />
+<section id="visual-summary-the-complete-process">
+<h3>Visual Summary: The Complete Process<a class="headerlink" href="#visual-summary-the-complete-process" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>📦 APRIORI ALGORITHM FLOW
+Level 0: Input data
+└─ 5 Transactions with 5 Items
+              ↓
+Level 1: Individual Items (L₁)
+└─ Smartphone (80%) | Charger (80%) | Earphones (40%) | Powerbank (40%)
+      ✗ Case removed (&lt; 40%)
+              ↓
+Level 2: Item Pairs (L₂)
+└─ {Smartphone, Charger} (60%), {Smartphone, Earphones} (40%), {Charger, Powerbank}(40%)
+      ✗ 3 other pairs removed (&lt; 40%)
+              ↓
+Level 3: Triplets
+└─ (None Found) — Algorithm Stops
+              ↓
+Association Rules (Confidence ≥ 60%)
+└─ {Smartphone} → {Charger}  [75% conf, 0.94 lift]
+   {Charger} → {Smartphone}  [75%, 0.94]
+   {Earphones} → {Smartphone}  [100%, 1.25]
+   {Powerbank} → {Charger}    [100%, 1.25]
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="part-5-practice-exercises">
+<h2>🎯 Part 5: Practice Exercises<a class="headerlink" href="#part-5-practice-exercises" title="Link to this heading"></a></h2>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p><strong>Learning by Doing!</strong>
+Try each exercise yourself. Click “Show Solution” to check.</p>
+</div>
+<section id="exercise-1-calculate-support-beginner">
+<h3>Exercise 1: Calculate Support (Beginner)<a class="headerlink" href="#exercise-1-calculate-support-beginner" title="Link to this heading"></a></h3>
 <p><strong>Given Data:</strong></p>
 <table class="docutils align-default">
 <thead>
@@ -899,74 +629,46 @@ isn’t particularly strong. Focus on rules with <strong>Lift &gt; 1</strong> fo
 </tr>
 </tbody>
 </table>
-<p><strong>Question:</strong> Calculate Support for:
-1. {Mouse}
-2. {Laptop, Mouse}
-3. {Keyboard}</p>
+<dl class="simple">
+<dt><strong>Question:</strong> Calculate Support for:</dt><dd><ol class="arabic simple">
+<li><p>{Mouse}</p></li>
+<li><p>{Laptop, Mouse}</p></li>
+<li><p>{Keyboard}</p></li>
+</ol>
+</dd>
+</dl>
 <div class="dropdown admonition">
 <p class="admonition-title">Solution (Click to reveal)</p>
-<p><strong>1. Support({Mouse}):</strong></p>
-<ul class="simple">
-<li><p>Appears in: T1, T2, T3, T5 = 4 transactions</p></li>
-<li><p>Support = 4/5 = <strong>80%</strong></p></li>
-</ul>
-<p><strong>2. Support({Laptop, Mouse}):</strong></p>
-<ul class="simple">
-<li><p>Appears in: T1, T2 = 2 transactions</p></li>
-<li><p>Support = 2/5 = <strong>40%</strong></p></li>
-</ul>
-<p><strong>3. Support({Keyboard}):</strong></p>
-<ul class="simple">
-<li><p>Appears in: T1, T3, T4 = 3 transactions</p></li>
-<li><p>Support = 3/5 = <strong>60%</strong></p></li>
-</ul>
+<ol class="arabic simple">
+<li><p>Support({Mouse}) = 4/5 = 80%</p></li>
+<li><p>Support({Laptop, Mouse}) = 2/5 = 40%</p></li>
+<li><p>Support({Keyboard}) = 3/5 = 60%</p></li>
+</ol>
 </div>
-</section>
 </section>
 <hr class="docutils" />
 <section id="exercise-2-calculate-confidence-intermediate">
 <h3>Exercise 2: Calculate Confidence (Intermediate)<a class="headerlink" href="#exercise-2-calculate-confidence-intermediate" title="Link to this heading"></a></h3>
-<p>Using the same dataset from Exercise 1:</p>
-<p><strong>Question:</strong> Calculate Confidence for the rule: {Laptop} → {Mouse}</p>
+<p>Using the same data as above:</p>
+<p><strong>Question:</strong> Calculate Confidence for {Laptop} → {Mouse}</p>
 <div class="dropdown admonition">
 <p class="admonition-title">Solution (Click to reveal)</p>
-<p><strong>Step 1:</strong> Find Support({Laptop, Mouse})</p>
-<ul class="simple">
-<li><p>T1, T2 = 2 transactions</p></li>
-<li><p>Support = 2/5</p></li>
-</ul>
-<p><strong>Step 2:</strong> Find Support({Laptop})</p>
-<ul class="simple">
-<li><p>T1, T2, T4 = 3 transactions</p></li>
-<li><p>Support = 3/5</p></li>
-</ul>
-<p><strong>Step 3:</strong> Calculate Confidence</p>
-<div class="math notranslate nohighlight">
-\[\text{Confidence} = \frac{2/5}{3/5} = \frac{2}{3} = 66.67\%\]</div>
-<p><strong>Interpretation:</strong> 66.67% of laptop buyers also buy a mouse</p>
+<p>Support({Laptop, Mouse}) = 2/5 = 0.4
+Support({Laptop}) = 3/5 = 0.6
+Confidence = (0.4) / (0.6) = 0.67 or 67%</p>
 </div>
 </section>
 <hr class="docutils" />
 <section id="exercise-3-calculate-lift-advanced">
 <h3>Exercise 3: Calculate Lift (Advanced)<a class="headerlink" href="#exercise-3-calculate-lift-advanced" title="Link to this heading"></a></h3>
-<p><strong>Question:</strong> For the rule {Laptop} → {Mouse}, calculate Lift and interpret the result.</p>
+<p><strong>Question:</strong> For the rule {Laptop} → {Mouse}, calculate Lift.</p>
 <div class="dropdown admonition">
 <p class="admonition-title">Solution (Click to reveal)</p>
-<p><strong>Given from previous exercises:</strong></p>
-<ul class="simple">
-<li><p>Support({Laptop, Mouse}) = 2/5 = 0.4</p></li>
-<li><p>Support({Laptop}) = 3/5 = 0.6</p></li>
-<li><p>Support({Mouse}) = 4/5 = 0.8</p></li>
-</ul>
-<p><strong>Apply Lift formula:</strong></p>
-<div class="math notranslate nohighlight">
-\[\text{Lift} = \frac{0.4}{0.6 \times 0.8} = \frac{0.4}{0.48} = 0.833\]</div>
-<p><strong>Interpretation:</strong></p>
-<ul class="simple">
-<li><p>Lift = 0.833 &lt; 1 → <strong>Negative correlation</strong></p></li>
-<li><p>Laptops and mice are <strong>less likely</strong> to be bought together than by random chance</p></li>
-<li><p>Despite 66.67% confidence, this is NOT a strong association</p></li>
-</ul>
+<p>From above:
+Support({Laptop, Mouse}) = 0.4
+Support({Laptop}) = 0.6
+Support({Mouse}) = 0.8
+Lift = 0.4 / (0.6 × 0.8) = 0.83</p>
 </div>
 </section>
 <hr class="docutils" />
@@ -1000,46 +702,43 @@ isn’t particularly strong. Focus on rules with <strong>Lift &gt; 1</strong> fo
 </tr>
 </tbody>
 </table>
-<p><strong>Task:</strong> Apply Apriori with <strong>Minimum Support = 50%</strong></p>
-<ol class="arabic simple">
-<li><p>Find all frequent 1-itemsets (L₁)</p></li>
-<li><p>Find all frequent 2-itemsets (L₂)</p></li>
-<li><p>Generate association rules with <strong>Minimum Confidence = 70%</strong></p></li>
+<dl class="simple">
+<dt><strong>Task:</strong> Apply Apriori with <strong>Minimum Support = 50%</strong></dt><dd><ol class="arabic simple">
+<li><p>All frequent 1-itemsets (L₁)</p></li>
+<li><p>All frequent 2-itemsets (L₂)</p></li>
+<li><p>Rules with <strong>Confidence ≥ 70%</strong></p></li>
 <li><p>Calculate Lift for each rule</p></li>
 </ol>
+</dd>
+</dl>
 <div class="dropdown admonition">
-<p class="admonition-title">Complete Solution</p>
-<p><strong>Step 1: L₁ (Frequent 1-itemsets)</strong></p>
-<ul class="simple">
-<li><p>{A}: T1, T2, T3, T5, T6 = 5/6 = 83.33% ✓</p></li>
-<li><p>{B}: T1, T2, T4, T5 = 4/6 = 66.67% ✓</p></li>
-<li><p>{C}: T1, T3, T4, T5, T6 = 5/6 = 83.33% ✓</p></li>
-</ul>
-<p><strong>Step 2: L₂ (Frequent 2-itemsets)</strong></p>
-<ul class="simple">
-<li><p>{A, B}: T1, T2, T5 = 3/6 = 50% ✓</p></li>
-<li><p>{A, C}: T1, T3, T5, T6 = 4/6 = 66.67% ✓</p></li>
-<li><p>{B, C}: T1, T4, T5 = 3/6 = 50% ✓</p></li>
-</ul>
-<p><strong>Step 3: Generate Rules (Confidence ≥ 70%)</strong></p>
-<p>From {A, B}:
-- {A} → {B}: Confidence = 3/5 = 60% ✗
-- {B} → {A}: Confidence = 3/4 = 75% ✓</p>
-<p>From {A, C}:
-- {A} → {C}: Confidence = 4/5 = 80% ✓
-- {C} → {A}: Confidence = 4/5 = 80% ✓</p>
-<p>From {B, C}:
-- {B} → {C}: Confidence = 3/4 = 75% ✓
-- {C} → {B}: Confidence = 3/5 = 60% ✗</p>
-<p><strong>Step 4: Calculate Lift</strong></p>
-<ul class="simple">
-<li><p>{B} → {A}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)</p></li>
-<li><p>{A} → {C}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)</p></li>
-<li><p>{C} → {A}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)</p></li>
-<li><p>{B} → {C}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)</p></li>
-</ul>
-<p><strong>Conclusion:</strong> All rules have Lift &lt; 1, indicating no strong positive associations</p>
+<p class="admonition-title">Complete Solution (Click to reveal)</p>
+<p>L₁: {A} = 5/6 (83.33%), {B} = 4/6 (66.67%), {C} = 5/6 (83.33%)
+L₂: {A,B} = 3/6 (50%), {A,C} = 4/6 (66.67%), {B,C} = 3/6 (50%)</p>
+<p>Rules and Confidence:
+- {A}→{B}: 3/5 = 60%
+- {B}→{A}: 3/4 = 75% ✓
+- {A}→{C}: 4/5 = 80% ✓
+- {C}→{A}: 4/5 = 80% ✓
+- {B}→{C}: 3/4 = 75% ✓
+- {C}→{B}: 3/5 = 60%</p>
+<p>Lift Calculations (all with support fractions):
+- {B}→{A}: 0.5 / (0.667 × 0.833) = 0.9
+- {A}→{C}: 0.667 / (0.833 × 0.833) ≈ 0.96
+- {C}→{A}: same as above
+- {B}→{C}: 0.5 / (0.667 × 0.833) = 0.9</p>
+<p>Conclusion: All these rules have Lift &lt; 1 (not strong associations).</p>
 </div>
+<hr class="docutils" />
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Key Takeaways:</strong>
+- Use <strong>support</strong> for spotting popular items
+- Use <strong>confidence</strong> for reliable recommendations
+- Use <strong>lift</strong> for real, non-coincidental patterns
+- The Apriori principle saves enormous time by pruning impossible patterns early!</p>
+</div>
+<hr class="docutils" />
 </section>
 </section>
 </section>

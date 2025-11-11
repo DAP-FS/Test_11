@@ -3,14 +3,13 @@ Apriori Algorithm : Friendly Session
 ========================================================================
 
 .. note::
-   **Overview ** 🎓 
-   
-   Think of this lesson as a friendly guide. We'll walk together, step by step, through 
-   the Apriori Algorithm. No rushing, no confusion—just clear explanations with 
-   real shopping examples. 
-   
+   **Overview** 🎓
+
+   Think of this lesson as a friendly guide. We'll walk together, step by step, through
+   the Apriori Algorithm. No rushing, no confusion—just clear explanations with real shopping examples.
+
    **What you'll learn:**
-   
+
    - How to find patterns in shopping data (like which products are bought together)
    - Three important measurements: Support, Confidence, and Lift
    - How to use the Apriori Algorithm step by step
@@ -22,11 +21,11 @@ Apriori Algorithm : Friendly Session
 ========================================================================
 
 Why Should You Care About This?
---------------------------------
+------------------------------
 
 **Real-Life Story:**
 
-Imagine you manage an online store. Every day, thousands of customers buy products. 
+Imagine you manage an online store. Every day, thousands of customers buy products.
 You notice something interesting:
 
 - When people buy **Smartphones**, they also buy **Chargers**
@@ -35,80 +34,61 @@ You notice something interesting:
 
 **Question:** Wouldn't it be amazing if you could discover these patterns automatically?
 
-**Answer:** That's exactly what the Apriori Algorithm does! 
+**Answer:** That's exactly what the Apriori Algorithm does!
 
 **Business Benefits:**
 
-✅ **Better Product Placement** — Put related items near each other  
+✅ **Better Product Placement** — Put related items near each other
 
-✅ **Smart Recommendations** — "Customers who bought X also bought Y"  
+✅ **Smart Recommendations** — "Customers who bought X also bought Y"
 
 ✅ **Bundle Offers** — Create discount packages (Smartphone + Charger combo)
 
-✅ **Inventory Planning** — Stock items that sell together  
+✅ **Inventory Planning** — Stock items that sell together
 
 **Real Companies Using This:**
 
-- **Amazon** — "Frequently bought together" section
-- **Netflix** — Movie and show recommendations
-- **Spotify** — Music playlist suggestions
-- **Grocery Stores** — Product shelf arrangement
+- **Amazon**, **Netflix**, **Spotify**, **Grocery Stores**
 
 .. important::
-   The Apriori Algorithm helps businesses understand **customer behavior patterns** 
+   The Apriori Algorithm helps businesses understand **customer behavior patterns**
    to make smarter decisions!
 
 ------------------------------------------------------------------------
 
 Key Terms You Must Know
-------------------------
-
-Before we start, let's learn some important words. Don't worry—we'll explain each one simply!
+-----------------------
 
 .. glossary::
 
    Transaction
       A single shopping event where a customer buys one or more items.
-      
-      *Example:* Customer buys {Smartphone, Charger, Earphones} in one purchase = 1 transaction
-   
+         Example: Customer buys {Smartphone, Charger, Earphones} in one purchase = 1 transaction
+
    Itemset
       A group of one or more items.
-      
-      *Example:* {Smartphone} is a 1-itemset. {Smartphone, Charger} is a 2-itemset.
-   
+         Example: {Smartphone} is a 1-itemset. {Smartphone, Charger} is a 2-itemset.
+
    Frequent Itemset
       A group of items that appears **often enough** in your data (meets minimum support).
-      
-      *Example:* If {Smartphone, Charger} appears in 50% of transactions, it's frequent!
-   
+         Example: If {Smartphone, Charger} appears in 50% of transactions, it's frequent!
+
    Association Rule
       An **"if-then"** pattern showing relationships between items.
-      
-      *Example:* **IF** customer buys Smartphone **THEN** they also buy Charger
-      
-      Written as: {Smartphone} → {Charger}
-   
+         Example: **IF** customer buys Smartphone **THEN** they also buy Charger
+         Written as: {Smartphone} → {Charger}
+
    Support
       **"How popular is this item/itemset?"**
-      
       Measures how often an item appears in all transactions.
-      
-      *Think:* Popularity score
-   
+
    Confidence
       **"How reliable is this rule?"**
-      
       If someone buys Item A, how likely are they to also buy Item B?
-      
-      *Think:* Reliability score
-   
+
    Lift
       **"Is this a real pattern or just coincidence?"**
-      
       Tells us if items truly influence each other.
-      
-      *Think:* Strength indicator
 
 .. tip::
    **Memory Tip:** Support = Popular, Confidence = Reliable, Lift = Real connection
@@ -119,9 +99,7 @@ Before we start, let's learn some important words. Don't worry—we'll explain e
 ========================================================================
 
 Our Example: Online Shopping Transactions
-------------------------------------------
-
-Let's use a **simple dataset** of 5 shopping transactions from an online electronics store:
+-----------------------------------------
 
 .. list-table:: **Transaction Database**
    :header-rows: 1
@@ -154,15 +132,13 @@ Let's use a **simple dataset** of 5 shopping transactions from an online electro
 Quick Analysis: What Do You Notice?
 -----------------------------------
 
-Before we apply the algorithm, let's observe the 
-
 **Count each item:**
 
-- **Smartphone** appears in: T1, T2, T3, T5 = **4 times** (80%)
-- **Charger** appears in: T1, T2, T4, T5 = **4 times** (80%)
-- **Earphones** appears in: T1, T3 = **2 times** (40%)
-- **Powerbank** appears in: T4, T5 = **2 times** (40%)
-- **Case** appears in: T3 = **1 time** (20%)
+- **Smartphone:** 4 times (T1, T2, T3, T5) = **80%**
+- **Charger:** 4 times (T1, T2, T4, T5) = **80%**
+- **Earphones:** 2 times (T1, T3) = **40%**
+- **Powerbank:** 2 times (T4, T5) = **40%**
+- **Case:** 1 time (T3) = **20%**
 
 **First Observation:** Case is not popular (only 20%). We might remove it!
 
@@ -172,181 +148,58 @@ Before we apply the algorithm, let's observe the
 ========================================================================
 
 The Apriori Principle (Most Important Idea!)
----------------------------------------------
+--------------------------------------------
 
-**Simple Analogy:**
+**Simple Analogy:**  
+If a tower of **3 blocks** is strong, its pieces (2 blocks, 1 block) must also be strong.  
+If a 3-block tower is weak, any bigger tower using those blocks will also be weak.
 
-Think of building blocks:
-
-- If a tower of **3 blocks** is strong, then towers of **2 blocks** and **1 block** must also be strong
-- If a tower of **3 blocks** is weak, any **4-block tower** built on it will also be weak
-
-**Applied to Shopping:**
-
-If {Smartphone, Charger, Earphones} is a frequent 3-item group, then:
-
-- {Smartphone, Charger} must be frequent ✓
-- {Smartphone, Earphones} must be frequent ✓
-- {Charger, Earphones} must be frequent ✓
-- {Smartphone}, {Charger}, {Earphones} must be frequent ✓
-
-.. important::
-   **The Apriori Principle (Official Version):**
-   
+**Apriori Principle (Official):**
    *"If an itemset is frequent, then all of its subsets must also be frequent."*
-   
-   **Reverse Rule (Pruning):**
-   
    *"If an itemset is infrequent, all its supersets must also be infrequent."*
 
-**Why This Matters:**
-
-- Saves **LOTS of time** by not checking impossible combinations
-- Makes the algorithm efficient even with large datasets
-
-**Example of Time Saving:**
-
-Without Apriori Principle:
-- With 1000 items, you'd check: 1000 + 499,500 + 166,167,000 + ... combinations = **FOREVER!**
-
-With Apriori Principle:
-- Remove infrequent items early → Only check promising combinations = **Minutes!**
+**Why This Matters:**  
+Saves lots of time and avoids checking impossible combinations!
 
 ------------------------------------------------------------------------
 
 The Three Magic Formulas
--------------------------
-
-Let's learn the three most important calculations in Apriori. We'll explain slowly!
+------------------------
 
 Formula 1: Support (Popularity)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**What it answers:** "How often does this item/itemset appear?"
-
-**Formula:**
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
-
    \text{Support}(A) = \frac{\text{Number of transactions containing } A}{\text{Total number of transactions}}
 
-**Step-by-Step Example:**
-
-Find Support({Smartphone}):
-
-**Step 1:** Count transactions with Smartphone
-  - T1 ✓, T2 ✓, T3 ✓, T4 ✗, T5 ✓
-  - **Count = 4**
-
-**Step 2:** Total transactions = 5
-
-**Step 3:** Apply formula
+*Example* (Smartphone):
 
 .. math::
-
    \text{Support}(\text{Smartphone}) = \frac{4}{5} = 0.8 = 80\%
-
-**Interpretation:** Smartphones appear in 80% of all purchases — very popular!
-
-.. tip::
-   **Quick Check:** Higher support = More popular item
 
 Formula 2: Confidence (Reliability)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**What it answers:** "If someone buys A, how likely are they to buy B?"
-
-**Formula:**
-
 .. math::
-
    \text{Confidence}(A \rightarrow B) = \frac{\text{Support}(A \cup B)}{\text{Support}(A)}
 
-**Simple Translation:**
+*Example* ({Smartphone} → {Charger}):
 
 .. math::
-
-   \text{Confidence} = \frac{\text{Times both A and B appear together}}{\text{Times A appears}}
-
-**Step-by-Step Example:**
-
-Find Confidence for rule: {Smartphone} → {Charger}
-
-**Step 1:** Find transactions with BOTH Smartphone AND Charger
-  - T1 ✓, T2 ✓, T5 ✓
-  - **Count = 3**
-
-**Step 2:** Find transactions with just Smartphone
-  - T1, T2, T3, T5
-  - **Count = 4**
-
-**Step 3:** Apply formula
-
-.. math::
-
    \text{Confidence}(\text{Smartphone} \rightarrow \text{Charger}) = \frac{3}{4} = 0.75 = 75\%
 
-**Interpretation:** 75% of smartphone buyers also buy chargers — strong relationship!
-
-.. tip::
-   **Quick Check:** 
-   - Confidence > 70% = Strong rule
-   - Confidence 50-70% = Moderate rule
-   - Confidence < 50% = Weak rule
-
-Formula 3: Lift (Real Connection Test)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**What it answers:** "Is this a real pattern or just random coincidence?"
-
-**Formula:**
+Formula 3: Lift (Real Connection)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
+   \text{Lift}(A \rightarrow B) = \frac{\text{Support}(A \cup B)}{\text{Support}(A) \times \text{Support}(B)}
 
-   \text{Lift}(A \rightarrow B) = \frac{\text{Confidence}(A \rightarrow B)}{\text{Support}(B)}
-
-**Simple Translation:**
-
-.. math::
-
-   \text{Lift} = \frac{\text{How often B comes with A}}{\text{How often B appears normally}}
-
-**Understanding Lift Values:**
-
-.. list-table:: **Lift Interpretation Guide**
-   :header-rows: 1
-   :widths: 25 75
-
-   * - **Lift Value**
-     - **Meaning**
-   * - Lift > 1
-     - **Positive correlation** — Buying A increases chance of buying B (Good pattern!)
-   * - Lift = 1
-     - **Independent** — A and B have no relationship (Random)
-   * - Lift < 1
-     - **Negative correlation** — Buying A decreases chance of buying B (Avoid this rule)
-
-**Step-by-Step Example:**
-
-Find Lift for rule: {Smartphone} → {Charger}
-
-**Step 1:** We already know:
-  - Confidence(Smartphone → Charger) = 0.75
-
-**Step 2:** Find Support({Charger})
-  - Charger appears in T1, T2, T4, T5 = 4 transactions
-  - Support = 4/5 = 0.8
-
-**Step 3:** Apply formula
+*Example* ({Smartphone} → {Charger}):
 
 .. math::
+   \text{Lift}(\text{Smartphone} \rightarrow \text{Charger}) = \frac{0.6}{0.8 \times 0.8} = 0.9375
 
-   \text{Lift}(\text{Smartphone} \rightarrow \text{Charger}) = \frac{0.75}{0.8} = 0.9375
-
-**Interpretation:** Lift = 0.9375 < 1 suggests slight negative correlation. 
-
-.. attention::
-   **Wait, this seems wrong!** Let's recalculate in exercises section with correct data.
+**Interpretation:** Lift < 1 suggests not a strong association. (We'll fix and explain this in depth below!)
 
 ------------------------------------------------------------------------
 
@@ -354,26 +207,21 @@ Find Lift for rule: {Smartphone} → {Charger}
 ========================================================================
 
 Overview: How Apriori Works
-----------------------------
+---------------------------
 
-**The Big Picture (5 Main Steps):**
+**Big Steps:**
+1. **Start with individual items** → Count each
+2. **Remove unpopular items**
+3. **Create pairs** from survivors
+4. **Repeat for larger groups**
+5. **Generate rules** for recommendations
 
-1. **Start with individual items** → Count how often each appears
-2. **Remove unpopular items** → Keep only items meeting minimum support
-3. **Create pairs** → Combine frequent items into 2-item groups
-4. **Repeat for larger groups** → Make 3-item, 4-item groups (if possible)
-5. **Generate rules** → Create "if-then" recommendations
-
-Let's do this together with our shopping data!
+Let's try with our shopping data!
 
 ------------------------------------------------------------------------
 
 Step 1: Scan Database and Count Items
---------------------------------------
-
-**What we do:** Count each item's appearances
-
-**Result: Candidate 1-Itemsets (C₁)**
+-------------------------------------
 
 .. list-table:: **C₁: All Single Items**
    :header-rows: 1
@@ -407,53 +255,16 @@ Step 1: Scan Database and Count Items
 **Apply Minimum Support Filter (40%):**
 
 .. attention::
-   **Pruning Alert!** Remove items with support < 40%
-   
-   - ❌ Remove: {Case} (only 20%)
-   - ✅ Keep: Everything else
+   ❌ Remove: {Case} (20%) — Not frequent enough
 
-**Result: Frequent 1-Itemsets (L₁)**
-
-.. list-table:: **L₁: Frequent Single Items**
-   :header-rows: 1
-   :widths: 40 30 30
-
-   * - **Itemset**
-     - **Support Count**
-     - **Support %**
-   * - {Smartphone}
-     - 4
-     - 80%
-   * - {Charger}
-     - 4
-     - 80%
-   * - {Earphones}
-     - 2
-     - 40%
-   * - {Powerbank}
-     - 2
-     - 40%
-
-.. note::
-   **Progress:** We reduced 5 items to 4 frequent items. Case is eliminated!
+Remaining: Smartphone, Charger, Earphones, Powerbank
 
 ------------------------------------------------------------------------
 
 Step 2: Generate Pairs (2-Itemsets)
-------------------------------------
+-----------------------------------
 
-**What we do:** Combine items from L₁ to create pairs, then count occurrences
-
-**Possible Pairs from L₁:**
-
-- {Smartphone, Charger}
-- {Smartphone, Earphones}
-- {Smartphone, Powerbank}
-- {Charger, Earphones}
-- {Charger, Powerbank}
-- {Earphones, Powerbank}
-
-**Count each pair:**
+**Possible Pairs:** {Smartphone, Charger}, {Smartphone, Earphones}, {Smartphone, Powerbank}, {Charger, Earphones}, {Charger, Powerbank}, {Earphones, Powerbank}
 
 .. list-table:: **C₂: Candidate 2-Itemsets**
    :header-rows: 1
@@ -491,17 +302,31 @@ Step 2: Generate Pairs (2-Itemsets)
 **Apply Minimum Support Filter (40%):**
 
 .. attention::
-   **Pruning Alert!** Remove pairs with support < 40%
-   
-   - ❌ Remove: {Smartphone, Powerbank} (20%)
+   ❌ Remove: {Smartphone, Powerbank} (20%)
+   ❌ Remove: {Charger, Earphones} (20%)
+   ❌ Remove: {Earphones, Powerbank} (0%)
 
-   - ❌ Remove: {Charger, Earphones} (20%)
+Remaining pairs: {Smartphone, Charger}, {Smartphone, Earphones}, {Charger, Powerbank}
 
-   - ❌ Remove: {Earphones, Powerbank} (0%)
+------------------------------------------------------------------------
 
-**Result: Frequent 2-Itemsets (L₂)**
+Step 3: Try to Create Triplets (3-Itemsets)
+-------------------------------------------
 
-.. list-table:: **L₂: Frequent Pairs**
+Check all pairs — none can make a valid 3-itemset, since not all their pairs are frequent (fails Apriori Principle).
+
+.. note::
+   **No frequent 3-itemsets can be formed.**
+   **Algorithm stops here!**
+
+------------------------------------------------------------------------
+
+Step 4: Generate Association Rules (with Support, Confidence, Lift)
+-------------------------------------------------------------------
+
+Set Minimum Confidence = 60%
+
+.. list-table:: **Frequent Pairs and Support**
    :header-rows: 1
    :widths: 40 30 30
 
@@ -518,212 +343,33 @@ Step 2: Generate Pairs (2-Itemsets)
      - 2
      - 40%
 
-.. note::
-   **Progress:** We found 3 frequent pairs! These are items often bought together.
+**Now analyze each pair for possible rules:**
 
-------------------------------------------------------------------------
+- {Smartphone} → {Charger}:
+   - Support = 60%
+   - Confidence = 3/4 = 75%
+   - Lift = 0.6 / (0.8 × 0.8) = 0.9375
 
-Step 3: Try to Create Triplets (3-Itemsets)
---------------------------------------------
+- {Charger} → {Smartphone}:
+   - Support = 60%
+   - Confidence = 3/4 = 75%
+   - Lift = 0.6 / (0.8 × 0.8) = 0.9375
 
-**What we do:** Combine pairs from L₂ to create triplets
+- {Earphones} → {Smartphone}:
+   - Support = 40%
+   - Confidence = 2/2 = 100%
+   - Lift = 0.4 / (0.4 × 0.8) = 1.25
 
-**Important Rule (Apriori Principle):**
-
-To create a 3-itemset, **ALL its 2-subsets must be in L₂**
-
-**Attempt 1:** {Smartphone, Charger, Earphones}
-
-Check its 2-subsets:
-- {Smartphone, Charger} ✓ (in L₂)
-- {Smartphone, Earphones} ✓ (in L₂)
-- {Charger, Earphones} ✗ (NOT in L₂)
-
-.. important::
-   **Result:** Cannot create this triplet because {Charger, Earphones} is not frequent!
-   
-   This is the Apriori Principle in action—saving us time!
-
-**Attempt 2:** {Smartphone, Charger, Powerbank}
-
-Check its 2-subsets:
-- {Smartphone, Charger} ✓ (in L₂)
-- {Smartphone, Powerbank} ✗ (NOT in L₂)
-- {Charger, Powerbank} ✓ (in L₂)
-
-.. important::
-   **Result:** Cannot create this triplet either!
-
-**Conclusion:**
-
-.. note::
-   **No frequent 3-itemsets can be formed.**
-   
-   **Algorithm stops here!**
-
-------------------------------------------------------------------------
-
-Step 4: Generate Association Rules
------------------------------------
-
-Now we create "if-then" rules from our frequent itemsets (L₂).
-
-**Set our threshold:** Minimum Confidence = 60%
-
-From {Smartphone, Charger}:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**Rule 1:** {Smartphone} → {Charger}
-
-- Support({Smartphone, Charger}) = 3/5 = 60%
-- Confidence = 3/4 = 75%
-- ✅ **Accepted** (75% > 60%)
-
-**Rule 2:** {Charger} → {Smartphone}
-
-- Support({Smartphone, Charger}) = 3/5 = 60%
-- Confidence = 3/4 = 75%
-- ✅ **Accepted** (75% > 60%)
-
-From {Smartphone, Earphones}:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**Rule 3:** {Smartphone} → {Earphones}
-
-- Confidence = 2/4 = 50%
-- ❌ **Rejected** (50% < 60%)
-
-**Rule 4:** {Earphones} → {Smartphone}
-
-- Confidence = 2/2 = 100%
-- ✅ **Accepted** (100% > 60%)
-
-From {Charger, Powerbank}:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**Rule 5:** {Charger} → {Powerbank}
-
-- Confidence = 2/4 = 50%
-- ❌ **Rejected** (50% < 60%)
-
-**Rule 6:** {Powerbank} → {Charger}
-
-- Confidence = 2/2 = 100%
-- ✅ **Accepted** (100% > 60%)
+- {Powerbank} → {Charger}:
+   - Support = 40%
+   - Confidence = 2/2 = 100%
+   - Lift = 0.4 / (0.4 × 0.8) = 1.25
 
 **Final Valid Rules:**
 
-.. list-table:: **Accepted Association Rules**
+.. list-table:: **Accepted Association Rules (with Lift)**
    :header-rows: 1
-   :widths: 35 15 15 35
-
-   * - **Rule**
-     - **Support**
-     - **Confidence**
-     - **Business Action**
-   * - {Smartphone} → {Charger}
-     - 60%
-     - 75%
-     - Recommend chargers to smartphone buyers
-   * - {Charger} → {Smartphone}
-     - 60%
-     - 75%
-     - Recommend smartphones to charger buyers
-   * - {Earphones} → {Smartphone}
-     - 40%
-     - 100%
-     - Bundle earphones with smartphones
-   * - {Powerbank} → {Charger}
-     - 40%
-     - 100%
-     - Bundle powerbanks with chargers
-
-------------------------------------------------------------------------
-
-Visual Summary: The Complete Process
--------------------------------------
-
-.. code-block:: text
-
-   📦 APRIORI ALGORITHM FLOW
-   
-   Level 0: Original Data
-   ┌────────────────────────────────────┐
-   │ 5 Transactions with 5 Items        │
-   │ T1, T2, T3, T4, T5                 │
-   └────────────────────────────────────┘
-                  ↓
-   
-   Level 1: Individual Items (L₁)
-   ┌──────────────┬─────────┬───────────┬────────────┐
-   │ Smartphone   │ Charger │ Earphones │ Powerbank  │
-   │   (80%)      │  (80%)  │   (40%)   │   (40%)    │
-   └──────────────┴─────────┴───────────┴────────────┘
-      ✗ Case removed (20% < 40%)
-                  ↓
-   
-   Level 2: Item Pairs (L₂)
-   ┌──────────────────────┬────────────────────┬─────────────────┐
-   │ {Smartphone,         │ {Smartphone,       │ {Charger,       │
-   │  Charger} (60%)      │  Earphones} (40%)  │  Powerbank}(40%)│
-   └──────────────────────┴────────────────────┴─────────────────┘
-      ✗ 3 other pairs removed (< 40%)
-                  ↓
-   
-   Level 3: Item Triplets (L₃)
-   ┌───────────────────────────┐
-   │  (Empty - None Found)     │
-   │  Algorithm Stops          │
-   └───────────────────────────┘
-                  ↓
-   
-   📊 ASSOCIATION RULES (Confidence ≥ 60%)
-   ─────────────────────────────────────────
-   {Smartphone} ──→ {Charger}      [75%]
-   {Charger}    ──→ {Smartphone}   [75%]
-   {Earphones}  ──→ {Smartphone}   [100%]
-   {Powerbank}  ──→ {Charger}      [100%]
-
-------------------------------------------------------------------------
-
-Calculate Lift Values:
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Now let's calculate Lift for each accepted rule to verify their strength.
-
-**For Rule 1:** {Smartphone} → {Charger}
-
-.. math::
-
-   \text{Lift} = \frac{\text{Support}(\text{Smartphone, Charger})}{\text{Support}(\text{Smartphone}) \times \text{Support}(\text{Charger})}
-
-.. math::
-
-   \text{Lift} = \frac{0.6}{0.8 \times 0.8} = \frac{0.6}{0.64} = 0.9375
-
-**Interpretation:** Lift = 0.9375 < 1 suggests slight negative correlation 
-
-**For Rule 4:** {Earphones} → {Smartphone}
-
-.. math::
-
-   \text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25
-
-**Interpretation:** Lift = 1.25 > 1 indicates **positive correlation** — buying earphones increases likelihood of buying smartphones! [web:1][web:8]
-
-**For Rule 6:** {Powerbank} → {Charger}
-
-.. math::
-
-   \text{Lift} = \frac{0.4}{0.4 \times 0.8} = \frac{0.4}{0.32} = 1.25
-
-**Interpretation:** Lift = 1.25 > 1 indicates **strong positive association** 
-
-**Updated Final Rules Table:**
-
-.. list-table:: **Accepted Association Rules (Complete Analysis)**
-   :header-rows: 1
-   :widths: 30 12 12 12 34
+   :widths: 28 11 13 10 36
 
    * - **Rule**
      - **Support**
@@ -734,30 +380,66 @@ Now let's calculate Lift for each accepted rule to verify their strength.
      - 60%
      - 75%
      - 0.94
-     - Moderate recommendation (Lift < 1)
+     - Recommend chargers to smartphone buyers (confidence is strong, but lift shows association is no stronger than chance)
    * - {Charger} → {Smartphone}
      - 60%
      - 75%
      - 0.94
-     - Moderate recommendation (Lift < 1)
+     - Recommend smartphones to charger buyers
    * - {Earphones} → {Smartphone}
      - 40%
      - 100%
      - 1.25
-     - **Strong bundle opportunity!** (Lift > 1)
+     - Bundle earphones with smartphones (**lift > 1: strong bundling**)
    * - {Powerbank} → {Charger}
      - 40%
      - 100%
      - 1.25
-     - **Strong bundle opportunity!** (Lift > 1)
+     - Bundle powerbanks with chargers (**lift > 1: strong bundling**)
 
 .. important::
-   **Key Insight:** Although {Smartphone} → {Charger} has high confidence (75%), 
-   the Lift < 1 suggests chargers are so popular (80% support) that the association 
-   isn't particularly strong. Focus on rules with **Lift > 1** for best results! 
+   **Key:** Use support for popularity, confidence for reliability, and **lift** to find true bonds.  
+   Lift greater than 1 signals real, useful connections for business action!
 
-   Exercise 1: Calculate Support (Beginner)
------------------------------------------
+------------------------------------------------------------------------
+
+Visual Summary: The Complete Process
+-------------------------------------
+
+.. code-block:: text
+
+   📦 APRIORI ALGORITHM FLOW
+   Level 0: Input data
+   └─ 5 Transactions with 5 Items
+                 ↓
+   Level 1: Individual Items (L₁)
+   └─ Smartphone (80%) | Charger (80%) | Earphones (40%) | Powerbank (40%)
+         ✗ Case removed (< 40%)
+                 ↓
+   Level 2: Item Pairs (L₂)
+   └─ {Smartphone, Charger} (60%), {Smartphone, Earphones} (40%), {Charger, Powerbank}(40%)
+         ✗ 3 other pairs removed (< 40%)
+                 ↓
+   Level 3: Triplets
+   └─ (None Found) — Algorithm Stops
+                 ↓
+   Association Rules (Confidence ≥ 60%)
+   └─ {Smartphone} → {Charger}  [75% conf, 0.94 lift]
+      {Charger} → {Smartphone}  [75%, 0.94]
+      {Earphones} → {Smartphone}  [100%, 1.25]
+      {Powerbank} → {Charger}    [100%, 1.25]
+
+------------------------------------------------------------------------
+
+🎯 Part 5: Practice Exercises
+========================================================================
+
+.. attention::
+   **Learning by Doing!**
+   Try each exercise yourself. Click "Show Solution" to check.
+
+Exercise 1: Calculate Support (Beginner)
+----------------------------------------
 
 **Given Data:**
 
@@ -778,90 +460,53 @@ Now let's calculate Lift for each accepted rule to verify their strength.
      - {Mouse, USB}
 
 **Question:** Calculate Support for:
-1. {Mouse}
-2. {Laptop, Mouse}
-3. {Keyboard}
+  1. {Mouse}
+  2. {Laptop, Mouse}
+  3. {Keyboard}
 
 .. admonition:: Solution (Click to reveal)
    :class: dropdown
 
-   **1. Support({Mouse}):**
-   
-   - Appears in: T1, T2, T3, T5 = 4 transactions
-   - Support = 4/5 = **80%**
-   
-   **2. Support({Laptop, Mouse}):**
-   
-   - Appears in: T1, T2 = 2 transactions
-   - Support = 2/5 = **40%**
-   
-   **3. Support({Keyboard}):**
-   
-   - Appears in: T1, T3, T4 = 3 transactions
-   - Support = 3/5 = **60%**
+   1. Support({Mouse}) = 4/5 = 80%
+   2. Support({Laptop, Mouse}) = 2/5 = 40%
+   3. Support({Keyboard}) = 3/5 = 60%
 
 ------------------------------------------------------------------------
 
 Exercise 2: Calculate Confidence (Intermediate)
-------------------------------------------------
+-----------------------------------------------
 
-Using the same dataset from Exercise 1:
+Using the same data as above:
 
-**Question:** Calculate Confidence for the rule: {Laptop} → {Mouse}
+**Question:** Calculate Confidence for {Laptop} → {Mouse}
 
 .. admonition:: Solution (Click to reveal)
    :class: dropdown
 
-   **Step 1:** Find Support({Laptop, Mouse})
-   
-   - T1, T2 = 2 transactions
-   - Support = 2/5
-   
-   **Step 2:** Find Support({Laptop})
-   
-   - T1, T2, T4 = 3 transactions
-   - Support = 3/5
-   
-   **Step 3:** Calculate Confidence
-   
-   .. math::
-   
-      \text{Confidence} = \frac{2/5}{3/5} = \frac{2}{3} = 66.67\%
-   
-   **Interpretation:** 66.67% of laptop buyers also buy a mouse 
+   Support({Laptop, Mouse}) = 2/5 = 0.4
+   Support({Laptop}) = 3/5 = 0.6
+   Confidence = (0.4) / (0.6) = 0.67 or 67%
 
 ------------------------------------------------------------------------
 
 Exercise 3: Calculate Lift (Advanced)
---------------------------------------
+-------------------------------------
 
-**Question:** For the rule {Laptop} → {Mouse}, calculate Lift and interpret the result.
+**Question:** For the rule {Laptop} → {Mouse}, calculate Lift.
 
 .. admonition:: Solution (Click to reveal)
    :class: dropdown
 
-   **Given from previous exercises:**
-   
-   - Support({Laptop, Mouse}) = 2/5 = 0.4
-   - Support({Laptop}) = 3/5 = 0.6
-   - Support({Mouse}) = 4/5 = 0.8
-   
-   **Apply Lift formula:**
-   
-   .. math::
-   
-      \text{Lift} = \frac{0.4}{0.6 \times 0.8} = \frac{0.4}{0.48} = 0.833
-   
-   **Interpretation:**
-   
-   - Lift = 0.833 < 1 → **Negative correlation**
-   - Laptops and mice are **less likely** to be bought together than by random chance
-   - Despite 66.67% confidence, this is NOT a strong association 
+   From above:  
+   Support({Laptop, Mouse}) = 0.4  
+   Support({Laptop}) = 0.6  
+   Support({Mouse}) = 0.8  
+   Lift = 0.4 / (0.6 × 0.8) = 0.83
 
 ------------------------------------------------------------------------
 
 Exercise 4: Apply Apriori Algorithm (Challenge)
-------------------------------------------------
+-----------------------------------------------
 
 **Dataset:**
 
@@ -884,48 +529,40 @@ Exercise 4: Apply Apriori Algorithm (Challenge)
      - {A, C}
 
 **Task:** Apply Apriori with **Minimum Support = 50%**
+  1. All frequent 1-itemsets (L₁)
+  2. All frequent 2-itemsets (L₂)
+  3. Rules with **Confidence ≥ 70%**
+  4. Calculate Lift for each rule
 
-1. Find all frequent 1-itemsets (L₁)
-2. Find all frequent 2-itemsets (L₂)
-3. Generate association rules with **Minimum Confidence = 70%**
-4. Calculate Lift for each rule
-
-.. admonition:: Complete Solution
+.. admonition:: Complete Solution (Click to reveal)
    :class: dropdown
 
-   **Step 1: L₁ (Frequent 1-itemsets)**
-   
-   - {A}: T1, T2, T3, T5, T6 = 5/6 = 83.33% ✓
-   - {B}: T1, T2, T4, T5 = 4/6 = 66.67% ✓
-   - {C}: T1, T3, T4, T5, T6 = 5/6 = 83.33% ✓
-   
-   **Step 2: L₂ (Frequent 2-itemsets)**
-   
-   - {A, B}: T1, T2, T5 = 3/6 = 50% ✓
-   - {A, C}: T1, T3, T5, T6 = 4/6 = 66.67% ✓
-   - {B, C}: T1, T4, T5 = 3/6 = 50% ✓
-   
-   **Step 3: Generate Rules (Confidence ≥ 70%)**
-   
-   From {A, B}:
-   - {A} → {B}: Confidence = 3/5 = 60% ✗
-   - {B} → {A}: Confidence = 3/4 = 75% ✓
-   
-   From {A, C}:
-   - {A} → {C}: Confidence = 4/5 = 80% ✓
-   - {C} → {A}: Confidence = 4/5 = 80% ✓
-   
-   From {B, C}:
-   - {B} → {C}: Confidence = 3/4 = 75% ✓
-   - {C} → {B}: Confidence = 3/5 = 60% ✗
-   
-   **Step 4: Calculate Lift**
-   
-   - {B} → {A}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)
-   - {A} → {C}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)
-   - {C} → {A}: Lift = 0.667/(0.833×0.833) = 0.96 (weak)
-   - {B} → {C}: Lift = 0.5/(0.667×0.833) = 0.9 (weak)
-   
-   **Conclusion:** All rules have Lift < 1, indicating no strong positive associations 
+   L₁: {A} = 5/6 (83.33%), {B} = 4/6 (66.67%), {C} = 5/6 (83.33%)
+   L₂: {A,B} = 3/6 (50%), {A,C} = 4/6 (66.67%), {B,C} = 3/6 (50%)
 
+   Rules and Confidence:
+   - {A}→{B}: 3/5 = 60%
+   - {B}→{A}: 3/4 = 75% ✓
+   - {A}→{C}: 4/5 = 80% ✓
+   - {C}→{A}: 4/5 = 80% ✓
+   - {B}→{C}: 3/4 = 75% ✓
+   - {C}→{B}: 3/5 = 60%
 
+   Lift Calculations (all with support fractions):
+   - {B}→{A}: 0.5 / (0.667 × 0.833) = 0.9
+   - {A}→{C}: 0.667 / (0.833 × 0.833) ≈ 0.96
+   - {C}→{A}: same as above
+   - {B}→{C}: 0.5 / (0.667 × 0.833) = 0.9
+
+   Conclusion: All these rules have Lift < 1 (not strong associations).
+
+------------------------------------------------------------------------
+
+.. tip::
+   **Key Takeaways:**  
+   - Use **support** for spotting popular items  
+   - Use **confidence** for reliable recommendations  
+   - Use **lift** for real, non-coincidental patterns  
+   - The Apriori principle saves enormous time by pruning impossible patterns early!
+
+========================================================================
